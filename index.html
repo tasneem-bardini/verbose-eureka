@@ -8,24 +8,19 @@
     :root{
       --bg:#0b0f14;
       --panel:#0f1620;
-      --panel2:#0d131c;
       --card:#111a24;
-      --card2:#0f1721;
       --text:#e8f0ff;
       --muted:rgba(232,240,255,.65);
       --muted2:rgba(232,240,255,.45);
       --line:rgba(255,255,255,.08);
       --accent:#19e3c0;
       --accent2:#21b9ff;
-      --warn:#ffcc66;
-      --good:#36e38e;
       --chip:rgba(255,255,255,.08);
       --shadow: 0 16px 40px rgba(0,0,0,.55);
       --radius:18px;
       --radius2:22px;
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -63,9 +58,7 @@
       color:rgba(232,240,255,.7);
       letter-spacing:.2px;
     }
-    .statusbar .right{
-      display:flex; gap:10px; align-items:center;
-    }
+    .statusbar .right{display:flex; gap:10px; align-items:center}
     .pill-dot{width:10px;height:10px;border-radius:999px;background:rgba(232,240,255,.35)}
     .notch{
       position:absolute; top:10px; left:50%;
@@ -79,7 +72,7 @@
       opacity:.75;
     }
 
-    /* Top gradient header (TAMM/Sahatna style) */
+    /* Top gradient header */
     .header{
       padding:14px 16px 14px;
       position:relative;
@@ -154,9 +147,7 @@
       transition:background .15s ease, transform .12s ease, border-color .15s ease;
       display:flex; align-items:center; gap:8px;
     }
-    .stage .dot{
-      width:8px;height:8px;border-radius:999px;background:rgba(232,240,255,.30);
-    }
+    .stage .dot{width:8px;height:8px;border-radius:999px;background:rgba(232,240,255,.30)}
     .stage.active{
       background:linear-gradient(135deg, rgba(25,227,192,.20), rgba(33,185,255,.18));
       border-color:rgba(33,185,255,.35);
@@ -173,28 +164,17 @@
       scrollbar-width:thin;
       scrollbar-color: rgba(255,255,255,.12) transparent;
     }
-    .section{
-      margin-top:12px;
-    }
+    .section{margin-top:12px}
     .sectionhead{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+      display:flex; align-items:center; justify-content:space-between;
       margin:14px 2px 10px;
     }
-    .sectionhead h3{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.2px;
-    }
+    .sectionhead h3{margin:0;font-size:14px;letter-spacing:.2px}
     .linkbtn{
-      border:none;
-      background:none;
+      border:none;background:none;
       color:rgba(33,185,255,.95);
-      font-size:12px;
-      cursor:pointer;
-      padding:6px 8px;
-      border-radius:10px;
+      font-size:12px;cursor:pointer;
+      padding:6px 8px;border-radius:10px;
     }
     .linkbtn:hover{background:rgba(33,185,255,.08)}
 
@@ -219,14 +199,9 @@
       color:rgba(232,240,255,.70);
     }
 
-    .cta{
-      display:flex;
-      gap:10px;
-      margin-top:12px;
-    }
+    .cta{display:flex; gap:10px; margin-top:12px}
     .btn{
-      border:none;
-      cursor:pointer;
+      border:none; cursor:pointer;
       border-radius:999px;
       padding:11px 14px;
       font-weight:650;
@@ -259,12 +234,24 @@
     .kpi .value{font-size:18px;font-weight:800;margin-top:4px}
     .kpi .hint{font-size:11px;color:rgba(232,240,255,.45);margin-top:4px}
 
-    /* List items */
-    .list{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+    .progress{
+      margin-top:10px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:999px;
+      height:10px;
+      overflow:hidden;
     }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, rgba(25,227,192,1), rgba(33,185,255,.9));
+      border-radius:999px;
+      transition:width .25s ease;
+    }
+
+    /* List items */
+    .list{display:flex; flex-direction:column; gap:10px}
     .item{
       background:linear-gradient(180deg, rgba(15,23,33,.88), rgba(12,18,26,.88));
       border:1px solid rgba(255,255,255,.08);
@@ -289,6 +276,7 @@
       border:1px solid rgba(255,255,255,.08);
       flex:0 0 auto;
       display:grid; place-items:center;
+      color:rgba(232,240,255,.80);
     }
     .item .meta{min-width:0}
     .item .meta .t{
@@ -309,11 +297,16 @@
       border:1px solid rgba(255,255,255,.08);
       color:rgba(232,240,255,.65);
     }
-    .chev{
-      margin-left:auto;
-      color:rgba(232,240,255,.35);
-      display:flex; align-items:center;
-      padding-left:6px;
+    .chev{margin-left:auto;color:rgba(232,240,255,.35);display:flex;align-items:center;padding-left:6px}
+
+    .divider{height:1px;background:rgba(255,255,255,.06);margin:10px 0}
+    .empty{
+      font-size:12px;
+      color:rgba(232,240,255,.50);
+      padding:10px 12px;
+      background:rgba(255,255,255,.04);
+      border:1px dashed rgba(255,255,255,.12);
+      border-radius:16px;
     }
 
     /* Modal */
@@ -337,18 +330,12 @@
       animation: up .16s ease-out;
     }
     @keyframes up{from{transform:translateY(18px); opacity:.6} to{transform:translateY(6px); opacity:1}}
-    .modal .handle{
-      width:46px;height:5px;border-radius:999px;background:rgba(255,255,255,.18);
-      margin:4px auto 10px;
-    }
+    .modal .handle{width:46px;height:5px;border-radius:999px;background:rgba(255,255,255,.18);margin:4px auto 10px}
     .modal h4{margin:4px 2px 6px; font-size:14px}
-    .modal p{margin:0 2px 10px; font-size:12px; color:rgba(232,240,255,.58); line-height:1.45}
-    .modal .grid{
-      display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;
-    }
+    .modal p{margin:0 2px 10px; font-size:12px; color:rgba(232,240,255,.58); line-height:1.45; white-space:pre-wrap}
+    .modal .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px}
     .modal .opt{
-      padding:12px;
-      border-radius:18px;
+      padding:12px;border-radius:18px;
       border:1px solid rgba(255,255,255,.10);
       background:rgba(255,255,255,.06);
       cursor:pointer;
@@ -395,21 +382,6 @@
       color:rgba(232,240,255,.70);
     }
 
-    /* Simple icons */
-    .svg{width:16px;height:16px; display:block}
-    .svg.big{width:18px;height:18px}
-    .divider{height:1px;background:rgba(255,255,255,.06);margin:10px 0}
-
-    /* Empty states */
-    .empty{
-      font-size:12px;
-      color:rgba(232,240,255,.50);
-      padding:10px 12px;
-      background:rgba(255,255,255,.04);
-      border:1px dashed rgba(255,255,255,.12);
-      border-radius:16px;
-    }
-
     /* Toast */
     .toast{
       position:absolute;
@@ -429,6 +401,10 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
+
+    /* Simple icons */
+    .svg{width:16px;height:16px; display:block}
+    .svg.big{width:18px;height:18px}
   </style>
 </head>
 <body>
@@ -455,7 +431,7 @@
         <div class="titlewrap">
           <div class="space">Sahatna Space</div>
           <div class="journey">Having a Baby</div>
-          <div class="subtitle" id="stageSubtitle">Dashboard • Start here after your positive test</div>
+          <div class="subtitle" id="stageSubtitle">Pregnancy services started • Profile created</div>
         </div>
 
         <button class="iconbtn" id="infoBtn" aria-label="Info">
@@ -468,8 +444,8 @@
       </div>
 
       <div class="stagebar" id="stagebar" aria-label="Journey stages">
-        <div class="stage active" data-stage="pre" role="button" tabindex="0"><span class="dot"></span>Pre-conception</div>
-        <div class="stage" data-stage="preg" role="button" tabindex="0"><span class="dot"></span>Pregnancy</div>
+        <div class="stage" data-stage="pre" role="button" tabindex="0"><span class="dot"></span>Pre-conception</div>
+        <div class="stage active" data-stage="preg" role="button" tabindex="0"><span class="dot"></span>Pregnancy</div>
         <div class="stage" data-stage="birth" role="button" tabindex="0"><span class="dot"></span>Birth</div>
         <div class="stage" data-stage="post" role="button" tabindex="0"><span class="dot"></span>Post-birth</div>
       </div>
@@ -540,90 +516,54 @@
   </div>
 
   <script>
-    // ===== Data model (initial prototype placeholders) =====
+    // =========================
+    // 1) Core requirement updates:
+    //    - Auto-create profile
+    //    - Auto-start pregnancy services
+    //    - Auto-book a set of appointments through birth
+    // =========================
+
     const STAGES = {
       pre: {
         name: "Pre-conception",
-        subtitle: "Dashboard • Start here after your positive test (or planning stage)",
-        heroTitle: "Set up your journey",
-        heroDesc: "Confirm your stage, add your preferences, and start receiving tailored guidance. This prototype assumes the journey begins after a positive test.",
-        chips: ["Positive test received", "Personalized education", "Next steps"],
-        kpis: [
-          {label:"Stage", value:"Pre-conception", hint:"You can change anytime"},
-          {label:"Plan status", value:"Draft", hint:"Complete onboarding"}
-        ],
-        actions: [
-          { id:"verify", title:"Confirm pregnancy test result", desc:"Record the hospital-confirmed result and date.", tags:["Hospital"], primary:"Confirm" },
-          { id:"profile", title:"Set your preferences", desc:"Language, reminders, content topics, and privacy controls.", tags:["Personalize"], primary:"Update" }
-        ],
+        subtitle: "Planning • Content shown for completeness (pregnancy already started)",
+        heroTitle: "Planning (archived)",
+        heroDesc: "Pregnancy has started from the hospital confirmation. This stage remains visible for prototype navigation only.",
         resources: [
-          { id:"r1", title:"What happens after a positive test?", desc:"A simple checklist of the first steps to take after confirmation.", tags:["Checklist","Getting Started"] },
-          { id:"r2", title:"Choosing your care pathway", desc:"Understand options: public/private, OB-GYN visits, and key screenings.", tags:["Care Plan","Basics"] }
-        ],
-        appointments: { upcoming: [], suggested: ["Book first OB-GYN visit", "Baseline blood tests (if advised)"] }
+          { id:"pre1", title:"Planning basics", desc:"Prototype placeholder resource.", tags:["Basics"] },
+        ]
       },
-
       preg: {
         name: "Pregnancy",
-        subtitle: "Dashboard • Week-by-week guidance & milestones",
+        subtitle: "Pregnancy services started • Tailored education & milestones",
         heroTitle: "Track progress with confidence",
-        heroDesc: "Follow your baby’s growth, appointments, and education tailored to your trimester.",
-        chips: ["Milestones", "Appointments", "Trimester tips"],
-        kpis: [
-          {label:"Trimester", value:"1st", hint:"Prototype value"},
-          {label:"Next milestone", value:"First scan", hint:"Typically early pregnancy"}
-        ],
-        actions: [
-          { id:"scan", title:"Schedule early scan", desc:"Set your scan appointment and reminders.", tags:["Scan","Reminder"], primary:"Schedule" },
-          { id:"vitamins", title:"Daily supplements reminder", desc:"Set a routine for prenatal vitamins (as advised).", tags:["Routine"], primary:"Set reminder" }
-        ],
+        heroDesc: "Your profile was auto-created from the hospital record. Key appointments were auto-booked to guide you to birth (prototype).",
         resources: [
-          { id:"r3", title:"Nutrition basics in pregnancy", desc:"What to eat, what to avoid, and hydration tips.", tags:["Nutrition","Safety"] },
-          { id:"r4", title:"Common symptoms: what’s normal?", desc:"Learn when to self-care vs. when to seek help.", tags:["Symptoms","Guidance"] }
-        ],
-        appointments: { upcoming: ["OB-GYN consultation • TBD"], suggested: ["Book scan", "Prenatal labs"] }
+          { id:"r1", title:"What to expect in the first trimester", desc:"Symptoms, warning signs, and what’s normal.", tags:["Trimester 1","Guidance"] },
+          { id:"r2", title:"Nutrition & supplements", desc:"Food safety, hydration, and daily routines.", tags:["Nutrition","Safety"] },
+          { id:"r3", title:"Scans & screening explained", desc:"Why scans matter and how to prepare.", tags:["Scans","Screening"] },
+          { id:"r4", title:"Mental wellbeing in pregnancy", desc:"Stress, sleep, and when to seek support.", tags:["Wellbeing","Support"] }
+        ]
       },
-
       birth: {
         name: "Birth",
-        subtitle: "Dashboard • Plan delivery & prepare for hospital",
+        subtitle: "Birth • Plan delivery & prepare for hospital",
         heroTitle: "Prepare for delivery",
-        heroDesc: "Build a birth plan, understand admission steps, and pack essentials.",
-        chips: ["Birth plan", "Hospital prep", "Support"],
-        kpis: [
-          {label:"Plan", value:"Not started", hint:"Create birth plan"},
-          {label:"Hospital", value:"Select", hint:"Choose facility"}
-        ],
-        actions: [
-          { id:"birthplan", title:"Create your birth plan", desc:"Pain relief preferences, support person, and care options.", tags:["Plan"], primary:"Create" },
-          { id:"bag", title:"Pack your hospital bag", desc:"Generate a checklist and track readiness.", tags:["Checklist"], primary:"Start" }
-        ],
+        heroDesc: "Build your birth plan, pack essentials, and review admission steps.",
         resources: [
-          { id:"r5", title:"Signs of labor", desc:"What to watch for and when to go to hospital.", tags:["Labor","Urgent"] },
-          { id:"r6", title:"Hospital admission checklist", desc:"Documents, insurance, and what to expect at triage.", tags:["Hospital","Checklist"] }
-        ],
-        appointments: { upcoming: [], suggested: ["Birth planning visit", "Hospital tour (if available)"] }
+          { id:"b1", title:"Signs of labor", desc:"What to watch for and when to go to hospital.", tags:["Labor","Urgent"] },
+          { id:"b2", title:"Hospital admission checklist", desc:"Documents and what to expect at triage.", tags:["Hospital","Checklist"] }
+        ]
       },
-
       post: {
         name: "Post-birth",
-        subtitle: "Dashboard • Recovery, newborn care & follow-ups",
+        subtitle: "Post-birth • Recovery, newborn care & follow-ups",
         heroTitle: "Care designed for you and your child",
-        heroDesc: "Support recovery, feeding guidance, immunizations, and follow-up appointments.",
-        chips: ["Recovery", "Newborn care", "Immunizations"],
-        kpis: [
-          {label:"Recovery", value:"Week 1", hint:"Prototype value"},
-          {label:"Next follow-up", value:"Postnatal check", hint:"Schedule if needed"}
-        ],
-        actions: [
-          { id:"followup", title:"Schedule postnatal check", desc:"Book your check and set reminders.", tags:["Appointment"], primary:"Book" },
-          { id:"newborn", title:"Newborn routine setup", desc:"Feeding, sleep, and immunization reminders.", tags:["Baby"], primary:"Set up" }
-        ],
+        heroDesc: "Recovery, feeding guidance, immunizations, and postnatal follow-ups.",
         resources: [
-          { id:"r7", title:"Postnatal recovery guide", desc:"Physical recovery, warning signs, and support.", tags:["Recovery","Guidance"] },
-          { id:"r8", title:"Newborn feeding basics", desc:"Breastfeeding/formula basics and when to seek help.", tags:["Feeding","Basics"] }
-        ],
-        appointments: { upcoming: ["Newborn check • TBD"], suggested: ["Immunization schedule", "Postnatal visit"] }
+          { id:"p1", title:"Postnatal recovery guide", desc:"Physical recovery and warning signs.", tags:["Recovery","Guidance"] },
+          { id:"p2", title:"Newborn feeding basics", desc:"Feeding guidance and when to seek help.", tags:["Feeding","Basics"] }
+        ]
       }
     };
 
@@ -644,13 +584,24 @@
     const modalClose = document.getElementById("modalClose");
     const modalPrimary = document.getElementById("modalPrimary");
 
-    // State
+    // ===== State =====
     let state = {
-      stage: "pre",
+      stage: "preg",              // auto-start pregnancy services
       view: "dashboard",
-      onboardingComplete: false,
-      profileSet: false,
-      remindersEnabled: false
+      onboardingComplete: true,   // auto-created
+      profileSet: true,           // auto-created
+      remindersEnabled: true,     // default on for pregnancy services
+      journeyInitialized: false,
+      journey: {
+        hospitalEvent: {
+          facility: "Hospital (prototype)",
+          event: "Positive pregnancy test confirmed",
+          date: new Date()
+        },
+        testDate: new Date(),
+        dueDate: addDays(new Date(), 260), // prototype default
+        appointments: []                  // auto-booked
+      }
     };
 
     // ===== Helpers =====
@@ -668,7 +619,7 @@
       options.forEach(opt=>{
         const div = document.createElement("div");
         div.className = "opt";
-        div.innerHTML = `<div class="k">${opt.k}</div><div class="v">${opt.v}</div>`;
+        div.innerHTML = `<div class="k">${escapeHtml(opt.k)}</div><div class="v">${escapeHtml(opt.v)}</div>`;
         div.onclick = () => opt.onClick?.();
         modalGrid.appendChild(div);
       });
@@ -685,13 +636,12 @@
 
     function setStage(stageKey){
       state.stage = stageKey;
-      // update stage pills
       Array.from(stageBar.querySelectorAll(".stage")).forEach(el=>{
         el.classList.toggle("active", el.dataset.stage === stageKey);
       });
       stageSubtitle.textContent = STAGES[stageKey].subtitle;
       render();
-      showToast(`Stage set to: ${STAGES[stageKey].name}`);
+      showToast(`Stage: ${STAGES[stageKey].name}`);
     }
 
     function setView(view){
@@ -700,14 +650,43 @@
       render();
     }
 
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function addDays(date, days){
+      const d = new Date(date);
+      d.setDate(d.getDate() + days);
+      return d;
+    }
+
+    function daysBetween(a,b){
+      const ms = (new Date(b)).getTime() - (new Date(a)).getTime();
+      return Math.round(ms / (1000*60*60*24));
+    }
+
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function fmtDate(d){
+      const dd = new Date(d);
+      return dd.toLocaleDateString(undefined, { weekday:"short", year:"numeric", month:"short", day:"numeric" });
+    }
+
+    function fmtShort(d){
+      const dd = new Date(d);
+      return dd.toLocaleDateString(undefined, { month:"short", day:"numeric" });
+    }
+
     function svgBadge(kind){
-      // Minimal “icon” inside thumb
       const map = {
-        checklist: `<svg class="svg" viewBox="0 0 24 24" fill="none">
-          <path d="M9 6h12M9 12h12M9 18h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M3.5 6l1.2 1.2L7.1 4.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M3.5 12l1.2 1.2 2.4-2.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M3.5 18l1.2 1.2 2.4-2.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        cal: `<svg class="svg" viewBox="0 0 24 24" fill="none">
+          <path d="M7 3v3M17 3v3M4 8h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M6 6h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"/>
         </svg>`,
         book: `<svg class="svg" viewBox="0 0 24 24" fill="none">
           <path d="M6 4h12v16H6V4Z" stroke="currentColor" stroke-width="2"/>
@@ -716,73 +695,286 @@
         bolt: `<svg class="svg" viewBox="0 0 24 24" fill="none">
           <path d="M13 2L3 14h8l-1 8 11-13h-8l0-7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
         </svg>`,
-        cal: `<svg class="svg" viewBox="0 0 24 24" fill="none">
-          <path d="M7 3v3M17 3v3M4 8h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M6 6h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2"/>
+        heart: `<svg class="svg" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21s-7-4.35-9.5-9A5.8 5.8 0 0 1 12 5.8 5.8 5.8 0 0 1 21.5 12c-2.5 4.65-9.5 9-9.5 9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
         </svg>`
       };
       return map[kind] || map.book;
     }
 
+    // ===== Auto-booking logic (prototype) =====
+    function generateAutoAppointments(testDate, dueDate){
+      const t = new Date(testDate);
+      const d = new Date(dueDate);
+
+      // A "couple of appointments" interpreted as a small set of key ones, ending at birth.
+      // You can adjust titles/offsets later in the next iteration.
+      const templates = [
+        { id:"a1", title:"First prenatal visit (OB-GYN / Midwife)", offset:3,  stage:"preg", type:"Consultation" },
+        { id:"a2", title:"Dating ultrasound scan",                offset:10, stage:"preg", type:"Scan" },
+        { id:"a3", title:"First trimester screening",             offset:35, stage:"preg", type:"Screening" },
+        { id:"a4", title:"Anatomy scan (20-week scan)",           offset:90, stage:"preg", type:"Scan" },
+        { id:"a5", title:"Glucose tolerance test",                offset:170,stage:"preg", type:"Lab" },
+        { id:"a6", title:"Third trimester review",                offset:210,stage:"preg", type:"Consultation" },
+        // Birth stage
+        { id:"a7", title:"Birth plan appointment",                offset:240,stage:"birth",type:"Planning" },
+        { id:"a8", title:"Delivery (estimated due date)",         offsetFromDue:0, stage:"birth", type:"Delivery" }
+      ];
+
+      const appts = templates.map(x=>{
+        const date = (x.offsetFromDue !== undefined)
+          ? addDays(d, x.offsetFromDue)
+          : addDays(t, x.offset);
+
+        return {
+          id: x.id,
+          title: x.title,
+          date,
+          stage: x.stage,
+          type: x.type,
+          status: "Booked",
+          source: "Auto-booked from hospital confirmation",
+          location: "Hospital / Clinic (prototype)"
+        };
+      });
+
+      // Ensure chronological sort
+      appts.sort((a,b)=> new Date(a.date) - new Date(b.date));
+      return appts;
+    }
+
+    function initHospitalPositiveTestFlow(){
+      if(state.journeyInitialized) return;
+
+      // Auto-create profile & start pregnancy services
+      state.onboardingComplete = true;
+      state.profileSet = true;
+      state.remindersEnabled = true;
+      state.stage = "preg";
+      state.view = "dashboard";
+
+      // Auto-book appointments until birth
+      state.journey.appointments = generateAutoAppointments(state.journey.testDate, state.journey.dueDate);
+
+      state.journeyInitialized = true;
+
+      // Visual feedback (prototype)
+      setTimeout(()=>{
+        showToast(`Profile created • ${state.journey.appointments.length} appointments booked`);
+      }, 250);
+    }
+
+    function getUpcomingAppointments(){
+      const now = new Date();
+      return state.journey.appointments.filter(a => new Date(a.date) >= now);
+    }
+
+    function getNextAppointment(){
+      const upcoming = getUpcomingAppointments();
+      return upcoming.length ? upcoming[0] : null;
+    }
+
+    function pregnancyProgress(){
+      const start = new Date(state.journey.testDate);
+      const end = new Date(state.journey.dueDate);
+      const now = new Date();
+      const total = Math.max(1, end - start);
+      const elapsed = clamp(now - start, 0, total);
+      const pct = (elapsed / total) * 100;
+
+      // Very rough week estimate for prototype
+      const days = Math.max(0, Math.round(elapsed / (1000*60*60*24)));
+      const week = Math.max(1, Math.floor(days / 7) + 1);
+
+      return { pct: clamp(pct, 0, 100), week };
+    }
+
+    function openDueDateEditor(){
+      const old = new Date(state.journey.dueDate);
+      openModal({
+        title: "Edit due date (estimated)",
+        desc: "Prototype control. Changing the due date will re-generate the auto-booked appointments.",
+        options: [
+          { k:"Current", v: fmtDate(old) },
+          { k:"Adjust", v:"+ 1 week", onClick: ()=>{ state.journey.dueDate = addDays(old, 7); rebook(); } },
+          { k:"Adjust", v:"- 1 week", onClick: ()=>{ state.journey.dueDate = addDays(old, -7); rebook(); } },
+          { k:"Adjust", v:"+ 2 weeks", onClick: ()=>{ state.journey.dueDate = addDays(old, 14); rebook(); } },
+          { k:"Adjust", v:"- 2 weeks", onClick: ()=>{ state.journey.dueDate = addDays(old, -14); rebook(); } }
+        ],
+        primaryLabel: "Done",
+        primaryAction: ()=>{}
+      });
+
+      function rebook(){
+        state.journey.appointments = generateAutoAppointments(state.journey.testDate, state.journey.dueDate);
+        showToast("Appointments re-booked (prototype).");
+        render();
+      }
+    }
+
+    function openAppointment(appt){
+      openModal({
+        title: appt.title,
+        desc:
+          `${fmtDate(appt.date)}\n` +
+          `${appt.location}\n\n` +
+          `Status: ${appt.status}\n` +
+          `${appt.source}\n\n` +
+          `Later: clinician, location map, reschedule/cancel, prep instructions, check-in/queue.`,
+        options: [
+          { k:"Type", v: appt.type },
+          { k:"Stage", v: STAGES[appt.stage]?.name || appt.stage },
+          { k:"Reminders", v: state.remindersEnabled ? "On" : "Off", onClick: ()=>{ state.remindersEnabled = !state.remindersEnabled; showToast("Toggled reminders."); render(); } },
+          { k:"Reschedule", v:"(placeholder)", onClick: ()=> showToast("Reschedule (prototype).") }
+        ],
+        primaryLabel: "OK",
+        primaryAction: ()=>{}
+      });
+    }
+
+    function openResource(resourceId){
+      const r = STAGES[state.stage].resources.find(x=>x.id===resourceId);
+      if(!r) return;
+      openModal({
+        title: r.title,
+        desc: r.desc + "\n\nLater: full article/video, save/bookmark, and stage-aware recommendations.",
+        options: [
+          { k:"Stage", v: STAGES[state.stage].name },
+          { k:"Save", v:"Bookmark", onClick: ()=> showToast("Saved (prototype).") },
+          { k:"Share", v:"Send link", onClick: ()=> showToast("Share (prototype).") },
+          { k:"Feedback", v:"Helpful / Not", onClick: ()=> showToast("Feedback (prototype).") }
+        ],
+        primaryLabel: "Open",
+        primaryAction: ()=> showToast("Open resource (prototype).")
+      });
+    }
+
     // ===== Renderers =====
     function renderDashboard(){
       const s = STAGES[state.stage];
+      const next = getNextAppointment();
+      const upcoming = getUpcomingAppointments();
+      const prog = pregnancyProgress();
 
-      const hero = `
+      const due = fmtDate(state.journey.dueDate);
+      const test = fmtDate(state.journey.testDate);
+
+      const hospitalCard = `
         <div class="card">
           <div class="row">
             <div style="min-width:0">
-              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Journey dashboard</div>
-              <div style="font-size:18px;font-weight:820;letter-spacing:.2px">${s.heroTitle}</div>
-              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">${s.heroDesc}</div>
-            </div>
-            <div class="thumb" aria-hidden="true">${svgBadge("bolt")}</div>
-          </div>
-
-          <div class="chips">
-            ${s.chips.map(c=>`<span class="chip">${c}</span>`).join("")}
-          </div>
-
-          <div class="kpiwrap">
-            ${s.kpis.map(k=>`
-              <div class="kpi">
-                <div class="label">${k.label}</div>
-                <div class="value">${k.value}</div>
-                <div class="hint">${k.hint}</div>
+              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Hospital-triggered start</div>
+              <div style="font-size:16px;font-weight:820;letter-spacing:.2px">${escapeHtml(state.journey.hospitalEvent.event)}</div>
+              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+                Facility: ${escapeHtml(state.journey.hospitalEvent.facility)}<br/>
+                Confirmation date: ${test}<br/>
+                Profile: <b>Auto-created</b> • Pregnancy services: <b>Active</b>
               </div>
-            `).join("")}
+              <div class="chips">
+                <span class="chip">Auto-booked appointments</span>
+                <span class="chip">Tailored education</span>
+                <span class="chip">Reminders ${state.remindersEnabled ? "On" : "Off"}</span>
+              </div>
+            </div>
+            <div class="thumb" aria-hidden="true">${svgBadge("heart")}</div>
           </div>
-
           <div class="cta">
-            <button class="btn primary" id="btnStart">${state.onboardingComplete ? "Continue journey" : "Start journey"}</button>
-            <button class="btn ghost" id="btnEditStage">Change stage</button>
+            <button class="btn primary" id="btnViewSchedule">View schedule</button>
+            <button class="btn ghost" id="btnEditDue">Edit due date</button>
           </div>
         </div>
       `;
 
-      const actions = `
-        <div class="section">
-          <div class="sectionhead">
-            <h3>Actions</h3>
-            <button class="linkbtn" id="actionsAll">View all</button>
+      const overview = `
+        <div class="card">
+          <div class="row">
+            <div style="min-width:0">
+              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Pregnancy overview</div>
+              <div style="font-size:18px;font-weight:820">${s.heroTitle}</div>
+              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">${s.heroDesc}</div>
+              <div class="progress" aria-label="Pregnancy progress"><div id="progBar"></div></div>
+              <div class="muted2" style="font-size:11px;margin-top:8px">
+                Progress: ~Week ${prog.week} (prototype estimate)
+              </div>
+            </div>
+            <div class="thumb" aria-hidden="true">${svgBadge("bolt")}</div>
           </div>
 
+          <div class="kpiwrap">
+            <div class="kpi">
+              <div class="label">Estimated due date</div>
+              <div class="value">${due}</div>
+              <div class="hint">Tap “Edit due date” to adjust</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Upcoming appointments</div>
+              <div class="value">${upcoming.length}</div>
+              <div class="hint">${upcoming.length ? "Auto-booked to birth" : "None"}</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Next appointment</div>
+              <div class="value">${next ? fmtShort(next.date) : "—"}</div>
+              <div class="hint">${next ? escapeHtml(next.title) : "No upcoming"}</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Stage</div>
+              <div class="value">${s.name}</div>
+              <div class="hint">Tailors content & schedule</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const nextAppointments = `
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Next appointments</h3>
+            <button class="linkbtn" id="apptsAll">View all</button>
+          </div>
           ${
-            (s.actions?.length)
-              ? s.actions.slice(0,2).map(a=>`
-                <div class="card" style="padding:12px 12px">
-                  <div class="row">
-                    <div style="min-width:0">
-                      <div style="font-weight:800">${a.title}</div>
-                      <div class="muted" style="font-size:12px;margin-top:4px;line-height:1.45">${a.desc}</div>
-                      <div class="tags">${a.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+            upcoming.length
+              ? `<div class="list">
+                  ${upcoming.slice(0,3).map(a=>`
+                    <div class="item" data-item="appt" data-id="${a.id}">
+                      <div class="thumb">${svgBadge("cal")}</div>
+                      <div class="meta">
+                        <div class="t">${escapeHtml(a.title)}</div>
+                        <div class="d">${fmtDate(a.date)} • ${escapeHtml(a.location)}</div>
+                        <div class="tags">
+                          <span class="tag">${escapeHtml(a.type)}</span>
+                          <span class="tag">${escapeHtml(a.status)}</span>
+                          <span class="tag">${STAGES[a.stage]?.name || a.stage}</span>
+                        </div>
+                      </div>
+                      <div class="chev">›</div>
                     </div>
-                    <button class="btn small ghost" data-action="${a.id}">${a.primary}</button>
-                  </div>
-                </div>
-              `).join("")
-              : `<div class="empty">No actions to complete right now.</div>`
+                  `).join("")}
+                </div>`
+              : `<div class="empty">No upcoming appointments (prototype).</div>`
           }
+        </div>
+      `;
+
+      const education = `
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Tailored Education</h3>
+            <button class="linkbtn" id="resourcesAll">View all</button>
+          </div>
+
+          <div class="list">
+            ${s.resources.slice(0,3).map((r,i)=>`
+              <div class="item" data-item="resource" data-id="${r.id}">
+                <div class="thumb">${svgBadge("book")}</div>
+                <div class="meta">
+                  <div class="t">${escapeHtml(r.title)}</div>
+                  <div class="d">${escapeHtml(r.desc)}</div>
+                  <div class="tags">${r.tags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
+                </div>
+                <div class="chev">›</div>
+              </div>
+            `).join("")}
+          </div>
         </div>
       `;
 
@@ -798,10 +990,10 @@
               <div style="min-width:0">
                 <div style="font-weight:820">Connect your smart device</div>
                 <div class="muted" style="font-size:12px;margin-top:5px;line-height:1.45">
-                  Get insights about your health directly from your smart device (prototype placeholder).
+                  Optional pregnancy wellness insights (prototype placeholder).
                 </div>
               </div>
-              <div class="thumb" aria-hidden="true">${svgBadge("bolt")}</div>
+              <div class="thumb" aria-hidden="true">${svgBadge("heart")}</div>
             </div>
             <div class="cta">
               <button class="btn primary" id="connectDevice">Connect device</button>
@@ -811,183 +1003,48 @@
         </div>
       `;
 
-      const appts = `
-        <div class="section">
-          <div class="sectionhead">
-            <h3>My Appointments</h3>
-            <button class="linkbtn" id="apptsAll">View all</button>
-          </div>
+      contentEl.innerHTML = hospitalCard + overview + nextAppointments + education + wellness;
 
-          <div class="card">
-            ${
-              (s.appointments.upcoming?.length)
-                ? `<div class="list">
-                    ${s.appointments.upcoming.map(u=>`
-                      <div class="item" data-item="appt" data-title="${escapeHtml(u)}">
-                        <div class="thumb">${svgBadge("cal")}</div>
-                        <div class="meta">
-                          <div class="t">${escapeHtml(u)}</div>
-                          <div class="d">Tap to view details or reschedule.</div>
-                          <div class="tags"><span class="tag">Upcoming</span><span class="tag">${s.name}</span></div>
-                        </div>
-                        <div class="chev">›</div>
-                      </div>
-                    `).join("")}
-                  </div>`
-                : `<div class="muted" style="font-size:12px;line-height:1.45">
-                    You have no upcoming appointments in this prototype.
-                  </div>`
-            }
+      // set progress bar width
+      requestAnimationFrame(()=>{
+        const bar = document.getElementById("progBar");
+        if(bar) bar.style.width = prog.pct.toFixed(0) + "%";
+      });
 
-            <div class="cta">
-              <button class="btn primary" id="bookAppt">Book appointment</button>
-              <button class="btn ghost" id="viewAppts">View my appointments</button>
-            </div>
+      // Wire up
+      document.getElementById("btnViewSchedule").onclick = ()=> setView("appointments");
+      document.getElementById("btnEditDue").onclick = ()=> openDueDateEditor();
+      document.getElementById("apptsAll").onclick = ()=> setView("appointments");
+      document.getElementById("resourcesAll").onclick = ()=> setView("resources");
 
-            <div class="divider"></div>
-            <div class="muted2" style="font-size:11px;margin-bottom:8px">Suggested next steps</div>
-            <div class="chips">
-              ${s.appointments.suggested.map(x=>`<span class="chip">${x}</span>`).join("")}
-            </div>
-          </div>
-        </div>
-      `;
-
-      const resources = `
-        <div class="section">
-          <div class="sectionhead">
-            <h3>Tailored Education</h3>
-            <button class="linkbtn" id="resourcesAll">View all</button>
-          </div>
-
-          <div class="list">
-            ${s.resources.slice(0,3).map((r,i)=>`
-              <div class="item" data-item="resource" data-id="${r.id}">
-                <div class="thumb">${svgBadge(i===0 ? "checklist":"book")}</div>
-                <div class="meta">
-                  <div class="t">${escapeHtml(r.title)}</div>
-                  <div class="d">${escapeHtml(r.desc)}</div>
-                  <div class="tags">${r.tags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
-                </div>
-                <div class="chev">›</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-
-      const quickTools = `
-        <div class="section">
-          <div class="sectionhead">
-            <h3>Quick Tools</h3>
-            <button class="linkbtn" id="toolsAll">View all</button>
-          </div>
-
-          <div class="card" style="padding:10px">
-            <div class="item" data-item="tool" data-title="Milestones">
-              <div class="thumb">${svgBadge("bolt")}</div>
-              <div class="meta">
-                <div class="t">Milestones</div>
-                <div class="d">A stage-aware timeline of key moments (prototype).</div>
-              </div>
-              <div class="chev">›</div>
-            </div>
-
-            <div class="item" data-item="tool" data-title="My Assessment">
-              <div class="thumb">${svgBadge("book")}</div>
-              <div class="meta">
-                <div class="t">My Assessment</div>
-                <div class="d">Answer a few questions to tailor content.</div>
-              </div>
-              <div class="chev">›</div>
-            </div>
-
-            <div class="item" data-item="tool" data-title="Reminders">
-              <div class="thumb">${svgBadge("cal")}</div>
-              <div class="meta">
-                <div class="t">Reminders</div>
-                <div class="d">${state.remindersEnabled ? "Enabled" : "Not set"} • Manage notifications</div>
-              </div>
-              <div class="chev">›</div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      contentEl.innerHTML = hero + actions + wellness + appts + resources + quickTools;
-
-      // Wire up dashboard buttons
-      document.getElementById("btnStart").onclick = () => {
-        state.onboardingComplete = true;
-        showToast("Journey started (prototype).");
-        render(); // update labels
-      };
-
-      document.getElementById("btnEditStage").onclick = () => openStagePicker();
-
-      document.getElementById("connectDevice").onclick = () => showToast("Connect device (prototype).");
-      document.getElementById("privacy").onclick = () => openModal({
+      document.getElementById("connectDevice").onclick = ()=> showToast("Connect device (prototype).");
+      document.getElementById("privacy").onclick = ()=> openModal({
         title:"Privacy (prototype)",
-        desc:"This is a placeholder. Later you can define consent, sharing, and data visibility.",
+        desc:"Placeholder for consent, sharing, and data visibility.",
         options:[
-          {k:"Data sharing", v:"Off (default)", onClick: ()=>showToast("Set data sharing (prototype).")},
-          {k:"Notifications", v: state.remindersEnabled ? "On" : "Off", onClick: ()=>showToast("Open notifications (prototype).")}
+          {k:"Medical data", v:"Used for personalization", onClick: ()=>showToast("Medical consent (prototype).")},
+          {k:"Device data", v:"Optional", onClick: ()=>showToast("Device consent (prototype).")}
         ],
         primaryLabel:"Got it",
         primaryAction: ()=>{}
       });
 
-      document.getElementById("bookAppt").onclick = ()=> openModal({
-        title:"Book appointment",
-        desc:"Prototype placeholder: choose an appointment type for this stage.",
-        options:[
-          {k:"Suggested", v: STAGES[state.stage].appointments.suggested[0] || "Consultation", onClick: ()=>showToast("Selected suggested appointment.")},
-          {k:"Other", v:"Choose from list", onClick: ()=>showToast("Open appointment list (prototype).")}
-        ],
-        primaryLabel:"Proceed",
-        primaryAction: ()=> showToast("Appointment flow (prototype).")
-      });
-
-      document.getElementById("viewAppts").onclick = ()=> setView("appointments");
-
-      // Action buttons
-      contentEl.querySelectorAll('[data-action]').forEach(btn=>{
-        btn.onclick = (e)=>{
-          const id = e.currentTarget.dataset.action;
-          handleAction(id);
+      // Appointment + Resource open
+      contentEl.querySelectorAll('[data-item="appt"]').forEach(el=>{
+        el.onclick = ()=>{
+          const id = el.dataset.id;
+          const appt = state.journey.appointments.find(a=>a.id===id);
+          if(appt) openAppointment(appt);
         };
       });
-
-      // Item cards
-      contentEl.querySelectorAll(".item").forEach(it=>{
-        it.onclick = ()=>{
-          const type = it.dataset.item;
-          if(type === "resource"){
-            const rid = it.dataset.id;
-            openResource(rid);
-          } else if(type === "tool"){
-            openTool(it.dataset.title);
-          } else if(type === "appt"){
-            openModal({
-              title: it.dataset.title || "Appointment",
-              desc:"Prototype placeholder. Later: full details, location, clinician, and reschedule/cancel actions.",
-              options:[
-                {k:"Status", v:"Draft", onClick: ()=>{}},
-                {k:"Reminders", v: state.remindersEnabled ? "On" : "Off", onClick: ()=>{ state.remindersEnabled = !state.remindersEnabled; showToast("Toggled reminders."); } }
-              ],
-              primaryLabel:"Reschedule",
-              primaryAction: ()=> showToast("Reschedule (prototype).")
-            });
-          }
-        };
+      contentEl.querySelectorAll('[data-item="resource"]').forEach(el=>{
+        el.onclick = ()=> openResource(el.dataset.id);
       });
-
-      // Quick links
-      document.getElementById("resourcesAll").onclick = ()=> setView("resources");
     }
 
     function renderResources(){
       const s = STAGES[state.stage];
+
       const header = `
         <div class="card">
           <div class="row">
@@ -995,7 +1052,7 @@
               <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Tailored education • ${s.name}</div>
               <div style="font-size:18px;font-weight:820">Resources</div>
               <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
-                Filter/sort are placeholders for the next iteration.
+                Prototype: stage-aware list. Next iteration can add trimester/week personalization and clinical guidelines.
               </div>
             </div>
             <div class="thumb">${svgBadge("book")}</div>
@@ -1003,7 +1060,7 @@
           <div class="cta">
             <button class="btn ghost" id="filterBtn">Filter</button>
             <button class="btn ghost" id="sortBtn">Sort</button>
-            <button class="btn primary" id="assessmentBtn">Take assessment</button>
+            <button class="btn primary" id="assessmentBtn">Quick assessment</button>
           </div>
         </div>
       `;
@@ -1011,9 +1068,9 @@
       const list = `
         <div class="section">
           <div class="list">
-            ${s.resources.map((r,i)=>`
+            ${s.resources.map(r=>`
               <div class="item" data-item="resource" data-id="${r.id}">
-                <div class="thumb">${svgBadge(i%2===0 ? "checklist":"book")}</div>
+                <div class="thumb">${svgBadge("book")}</div>
                 <div class="meta">
                   <div class="t">${escapeHtml(r.title)}</div>
                   <div class="d">${escapeHtml(r.desc)}</div>
@@ -1030,139 +1087,144 @@
 
       document.getElementById("filterBtn").onclick = ()=> showToast("Filter (prototype).");
       document.getElementById("sortBtn").onclick = ()=> showToast("Sort (prototype).");
-      document.getElementById("assessmentBtn").onclick = ()=> openTool("My Assessment");
+      document.getElementById("assessmentBtn").onclick = ()=> openModal({
+        title:"Quick assessment (prototype)",
+        desc:"Later: a short questionnaire to tailor content and appointment nudges.",
+        options:[
+          {k:"Goal", v:"Tailor content"},
+          {k:"Time", v:"~2 min"}
+        ],
+        primaryLabel:"Start",
+        primaryAction: ()=> showToast("Assessment started (prototype).")
+      });
 
-      contentEl.querySelectorAll('[data-item="resource"]').forEach(it=>{
-        it.onclick = ()=> openResource(it.dataset.id);
+      contentEl.querySelectorAll('[data-item="resource"]').forEach(el=>{
+        el.onclick = ()=> openResource(el.dataset.id);
       });
     }
 
     function renderAppointments(){
-      const s = STAGES[state.stage];
+      const upcoming = getUpcomingAppointments();
+      const all = state.journey.appointments;
 
       const card = `
         <div class="card">
           <div class="row">
             <div style="min-width:0">
               <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Appointments</div>
-              <div style="font-size:18px;font-weight:820">Your schedule</div>
+              <div style="font-size:18px;font-weight:820">Auto-booked schedule</div>
               <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
-                This is a placeholder view. Later: clinic locations, clinicians, calendar integration, and queue/triage info.
+                Created automatically after the hospital confirmed the positive pregnancy test (prototype).
               </div>
             </div>
             <div class="thumb">${svgBadge("cal")}</div>
           </div>
           <div class="cta">
-            <button class="btn primary" id="bookFromAppts">Book appointment</button>
+            <button class="btn primary" id="bookExtra">Book extra appointment</button>
             <button class="btn ghost" id="toggleReminders">${state.remindersEnabled ? "Disable reminders" : "Enable reminders"}</button>
           </div>
         </div>
       `;
 
-      const upcoming = (s.appointments.upcoming?.length)
-        ? `
-          <div class="section">
-            <div class="sectionhead"><h3>Upcoming</h3><button class="linkbtn" id="exportBtn">Export</button></div>
-            <div class="list">
-              ${s.appointments.upcoming.map(u=>`
-                <div class="item" data-item="appt" data-title="${escapeHtml(u)}">
-                  <div class="thumb">${svgBadge("cal")}</div>
-                  <div class="meta">
-                    <div class="t">${escapeHtml(u)}</div>
-                    <div class="d">Tap to view details.</div>
-                    <div class="tags"><span class="tag">Upcoming</span><span class="tag">${s.name}</span></div>
-                  </div>
-                  <div class="chev">›</div>
-                </div>
-              `).join("")}
-            </div>
-          </div>
-        `
-        : `
-          <div class="section">
-            <div class="sectionhead"><h3>Upcoming</h3></div>
-            <div class="empty">No appointments saved yet for this stage (prototype).</div>
-          </div>
-        `;
-
-      const suggested = `
+      const upcomingBlock = `
         <div class="section">
-          <div class="sectionhead"><h3>Suggested</h3></div>
+          <div class="sectionhead">
+            <h3>Upcoming</h3>
+            <button class="linkbtn" id="editDueLink">Edit due date</button>
+          </div>
+          ${
+            upcoming.length
+              ? `<div class="list">
+                  ${upcoming.map(a=>`
+                    <div class="item" data-item="appt" data-id="${a.id}">
+                      <div class="thumb">${svgBadge("cal")}</div>
+                      <div class="meta">
+                        <div class="t">${escapeHtml(a.title)}</div>
+                        <div class="d">${fmtDate(a.date)} • ${escapeHtml(a.location)}</div>
+                        <div class="tags">
+                          <span class="tag">${escapeHtml(a.type)}</span>
+                          <span class="tag">${STAGES[a.stage]?.name || a.stage}</span>
+                          <span class="tag">${escapeHtml(a.status)}</span>
+                        </div>
+                      </div>
+                      <div class="chev">›</div>
+                    </div>
+                  `).join("")}
+                </div>`
+              : `<div class="empty">No upcoming appointments (prototype).</div>`
+          }
+        </div>
+      `;
+
+      const allBlock = `
+        <div class="section">
+          <div class="sectionhead"><h3>All (timeline)</h3></div>
           <div class="card">
-            <div class="muted2" style="font-size:11px;margin-bottom:8px">Based on your stage</div>
+            <div class="muted2" style="font-size:11px;margin-bottom:8px">
+              Includes delivery (estimated). Next iteration can group by trimester, care pathway, and facility.
+            </div>
             <div class="chips">
-              ${s.appointments.suggested.map(x=>`<span class="chip">${x}</span>`).join("")}
+              ${all.map(a=>`<span class="chip">${fmtShort(a.date)} • ${escapeHtml(a.title)}</span>`).join("")}
             </div>
           </div>
         </div>
       `;
 
-      contentEl.innerHTML = card + upcoming + suggested;
+      contentEl.innerHTML = card + upcomingBlock + allBlock;
 
-      document.getElementById("bookFromAppts").onclick = ()=> showToast("Book appointment (prototype).");
+      document.getElementById("bookExtra").onclick = ()=> showToast("Book extra appointment (prototype).");
       document.getElementById("toggleReminders").onclick = ()=>{
         state.remindersEnabled = !state.remindersEnabled;
         showToast(state.remindersEnabled ? "Reminders enabled." : "Reminders disabled.");
         render();
       };
+      document.getElementById("editDueLink").onclick = ()=> openDueDateEditor();
 
-      const exportBtn = document.getElementById("exportBtn");
-      if(exportBtn) exportBtn.onclick = ()=> showToast("Export (prototype).");
-
-      contentEl.querySelectorAll('[data-item="appt"]').forEach(it=>{
-        it.onclick = ()=> openModal({
-          title: it.dataset.title || "Appointment",
-          desc:"Prototype placeholder for appointment details.",
-          options:[
-            {k:"Location", v:"TBD", onClick: ()=>{}},
-            {k:"Reminders", v: state.remindersEnabled ? "On" : "Off", onClick: ()=>{ state.remindersEnabled = !state.remindersEnabled; showToast("Toggled reminders."); } }
-          ],
-          primaryLabel:"Reschedule",
-          primaryAction: ()=> showToast("Reschedule (prototype).")
-        });
+      contentEl.querySelectorAll('[data-item="appt"]').forEach(el=>{
+        el.onclick = ()=>{
+          const id = el.dataset.id;
+          const appt = state.journey.appointments.find(a=>a.id===id);
+          if(appt) openAppointment(appt);
+        };
       });
     }
 
     function renderProfile(){
-      const s = STAGES[state.stage];
+      const due = fmtDate(state.journey.dueDate);
       contentEl.innerHTML = `
         <div class="card">
           <div class="row">
             <div style="min-width:0">
               <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Me</div>
-              <div style="font-size:18px;font-weight:820">Preferences & profile</div>
+              <div style="font-size:18px;font-weight:820">Profile (auto-created)</div>
               <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
-                This is a placeholder for user profile, language, consent, and content preferences.
+                Created automatically from the hospital confirmation. Next iteration: demographics, care pathway, language, consent.
               </div>
             </div>
-            <div class="thumb">${svgBadge("book")}</div>
+            <div class="thumb">${svgBadge("heart")}</div>
           </div>
-
-          <div class="divider"></div>
 
           <div class="kpiwrap">
             <div class="kpi">
-              <div class="label">Current stage</div>
-              <div class="value">${s.name}</div>
-              <div class="hint">Used to tailor content</div>
+              <div class="label">Profile status</div>
+              <div class="value">${state.profileSet ? "Active" : "Not set"}</div>
+              <div class="hint">Auto-created by hospital</div>
             </div>
             <div class="kpi">
-              <div class="label">Reminders</div>
-              <div class="value">${state.remindersEnabled ? "On" : "Off"}</div>
-              <div class="hint">Appointments & habits</div>
+              <div class="label">Due date (estimated)</div>
+              <div class="value">${due}</div>
+              <div class="hint">Drives appointment schedule</div>
             </div>
           </div>
 
           <div class="cta">
-            <button class="btn primary" id="editPrefs">${state.profileSet ? "Edit preferences" : "Set preferences"}</button>
+            <button class="btn primary" id="editPrefs">Edit preferences</button>
             <button class="btn ghost" id="consentBtn">Consent & privacy</button>
           </div>
         </div>
 
         <div class="section">
-          <div class="sectionhead">
-            <h3>Quick settings</h3>
-          </div>
+          <div class="sectionhead"><h3>Quick settings</h3></div>
           <div class="card" style="padding:10px">
             <div class="item" data-item="setting" data-title="Language">
               <div class="thumb">${svgBadge("book")}</div>
@@ -1172,21 +1234,19 @@
               </div>
               <div class="chev">›</div>
             </div>
-
-            <div class="item" data-item="setting" data-title="Notifications">
+            <div class="item" data-item="setting" data-title="Reminders">
               <div class="thumb">${svgBadge("cal")}</div>
               <div class="meta">
-                <div class="t">Notifications</div>
+                <div class="t">Reminders</div>
                 <div class="d">${state.remindersEnabled ? "Enabled" : "Disabled"}</div>
               </div>
               <div class="chev">›</div>
             </div>
-
-            <div class="item" data-item="setting" data-title="Topics">
-              <div class="thumb">${svgBadge("bolt")}</div>
+            <div class="item" data-item="setting" data-title="Estimated due date">
+              <div class="thumb">${svgBadge("heart")}</div>
               <div class="meta">
-                <div class="t">Topics</div>
-                <div class="d">Nutrition • Symptoms • Appointments (prototype)</div>
+                <div class="t">Estimated due date</div>
+                <div class="d">${due}</div>
               </div>
               <div class="chev">›</div>
             </div>
@@ -1194,33 +1254,34 @@
         </div>
       `;
 
-      document.getElementById("editPrefs").onclick = ()=>{
-        state.profileSet = true;
-        showToast("Preferences saved (prototype).");
-        render();
-      };
+      document.getElementById("editPrefs").onclick = ()=> showToast("Preferences saved (prototype).");
+      document.getElementById("consentBtn").onclick = ()=> openModal({
+        title:"Consent & privacy",
+        desc:"Prototype placeholder. Next iteration: granular consent for medical info, device data, and personalization.",
+        options:[
+          {k:"Medical data", v:"Used for services", onClick: ()=>showToast("Medical consent (prototype).")},
+          {k:"Device data", v:"Optional", onClick: ()=>showToast("Device consent (prototype).")}
+        ],
+        primaryLabel:"Save",
+        primaryAction: ()=> showToast("Saved (prototype).")
+      });
 
-      document.getElementById("consentBtn").onclick = ()=>{
-        openModal({
-          title:"Consent & privacy",
-          desc:"Prototype placeholder. Later: granular consent for medical info, device data, and content personalization.",
-          options:[
-            {k:"Medical data", v:"Limited", onClick: ()=>showToast("Medical data consent (prototype).")},
-            {k:"Device data", v:"Optional", onClick: ()=>showToast("Device consent (prototype).")}
-          ],
-          primaryLabel:"Save",
-          primaryAction: ()=> showToast("Saved (prototype).")
-        });
-      };
-
-      contentEl.querySelectorAll('[data-item="setting"]').forEach(it=>{
-        it.onclick = ()=> showToast(`${it.dataset.title} (prototype).`);
+      contentEl.querySelectorAll('[data-item="setting"]').forEach(el=>{
+        el.onclick = ()=>{
+          if(el.dataset.title === "Estimated due date") openDueDateEditor();
+          else if(el.dataset.title === "Reminders"){
+            state.remindersEnabled = !state.remindersEnabled;
+            showToast("Toggled reminders.");
+            render();
+          } else {
+            showToast(`${el.dataset.title} (prototype).`);
+          }
+        };
       });
     }
 
     function render(){
-      const s = STAGES[state.stage];
-      stageSubtitle.textContent = s.subtitle;
+      stageSubtitle.textContent = STAGES[state.stage].subtitle;
 
       if(state.view === "dashboard") renderDashboard();
       if(state.view === "resources") renderResources();
@@ -1228,99 +1289,7 @@
       if(state.view === "profile") renderProfile();
     }
 
-    // ===== Behaviors =====
-    function openStagePicker(){
-      openModal({
-        title:"Choose journey stage",
-        desc:"This changes the dashboard and the educational content you see (prototype).",
-        options:[
-          {k:"Stage", v:"Pre-conception", onClick: ()=> setStage("pre")},
-          {k:"Stage", v:"Pregnancy", onClick: ()=> setStage("preg")},
-          {k:"Stage", v:"Birth", onClick: ()=> setStage("birth")},
-          {k:"Stage", v:"Post-birth", onClick: ()=> setStage("post")}
-        ],
-        primaryLabel:"Done",
-        primaryAction: ()=>{}
-      });
-    }
-
-    function openResource(resourceId){
-      const s = STAGES[state.stage];
-      const r = s.resources.find(x=>x.id===resourceId);
-      if(!r) return;
-
-      openModal({
-        title: r.title,
-        desc: r.desc + "  \n\nLater: full article/video view, save/bookmark, and related resources.",
-        options:[
-          {k:"Type", v: r.tags[0] || "Resource"},
-          {k:"Stage", v: s.name},
-          {k:"Save", v:"Bookmark", onClick: ()=> showToast("Saved (prototype).")},
-          {k:"Share", v:"Send link", onClick: ()=> showToast("Share (prototype).")}
-        ],
-        primaryLabel:"Open",
-        primaryAction: ()=> showToast("Open resource (prototype).")
-      });
-    }
-
-    function openTool(title){
-      openModal({
-        title,
-        desc:"Prototype placeholder. Later this will open an interactive tool inside Sahatna space.",
-        options:[
-          {k:"Stage", v: STAGES[state.stage].name},
-          {k:"Personalization", v: state.profileSet ? "Configured" : "Not set"}
-        ],
-        primaryLabel:"Launch",
-        primaryAction: ()=> showToast(`${title} launched (prototype).`)
-      });
-    }
-
-    function handleAction(id){
-      if(id === "verify"){
-        openModal({
-          title:"Confirm test result",
-          desc:"Prototype: record confirmation date/time and facility.",
-          options:[
-            {k:"Facility", v:"Hospital (TBD)", onClick: ()=>showToast("Choose facility (prototype).")},
-            {k:"Date", v:"Today", onClick: ()=>showToast("Pick date (prototype).")}
-          ],
-          primaryLabel:"Confirm",
-          primaryAction: ()=> showToast("Result confirmed (prototype).")
-        });
-      } else if(id === "profile"){
-        setView("profile");
-        showToast("Open preferences.");
-      } else if(id === "scan"){
-        setView("appointments");
-      } else if(id === "vitamins"){
-        state.remindersEnabled = true;
-        showToast("Daily reminder enabled (prototype).");
-        render();
-      } else if(id === "birthplan"){
-        openTool("Birth plan");
-      } else if(id === "bag"){
-        openTool("Hospital bag checklist");
-      } else if(id === "followup"){
-        setView("appointments");
-      } else if(id === "newborn"){
-        openTool("Newborn routine");
-      } else {
-        showToast("Action (prototype).");
-      }
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
     // ===== Event wiring =====
-    // Stage pill clicks
     stageBar.addEventListener("click", (e)=>{
       const el = e.target.closest(".stage");
       if(!el) return;
@@ -1335,25 +1304,27 @@
       }
     });
 
-    // Bottom nav
     navBtns.forEach(btn=>{
       btn.addEventListener("click", ()=> setView(btn.dataset.view));
     });
 
-    // Modal close
     modalClose.onclick = closeModal;
     modalBack.addEventListener("click", (e)=>{
       if(e.target === modalBack) closeModal();
     });
 
-    // Header buttons
     document.getElementById("infoBtn").onclick = ()=>{
+      const next = getNextAppointment();
       openModal({
-        title:"Having a Baby • Overview",
-        desc:"This is the initial interactive prototype for the Sahatna space journey. Next step: define exact content and actions per stage (pre-conception, pregnancy, birth, post-birth).",
+        title:"Having a Baby • Services started",
+        desc:
+          "Auto-triggered by hospital confirmation.\n\n" +
+          `Due date (est.): ${fmtDate(state.journey.dueDate)}\n` +
+          `Appointments booked: ${state.journey.appointments.length}\n` +
+          (next ? `Next: ${fmtDate(next.date)} • ${next.title}` : "Next: —"),
         options:[
-          {k:"Current stage", v: STAGES[state.stage].name, onClick: ()=> openStagePicker()},
-          {k:"Open", v:"Resources", onClick: ()=> setView("resources")}
+          {k:"View", v:"Schedule", onClick: ()=> setView("appointments")},
+          {k:"Edit", v:"Due date", onClick: ()=> openDueDateEditor()}
         ],
         primaryLabel:"OK",
         primaryAction: ()=>{}
@@ -1361,7 +1332,8 @@
     };
     document.getElementById("backBtn").onclick = ()=> showToast("Back (prototype).");
 
-    // Initial render
+    // ===== Boot =====
+    initHospitalPositiveTestFlow();
     render();
   </script>
 </body>

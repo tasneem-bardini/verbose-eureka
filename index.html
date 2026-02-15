@@ -7,7 +7,6 @@
   <style>
     :root{
       --bg:#0b0f14;
-      --panel:#0f1620;
       --card:#111a24;
       --text:#e8f0ff;
       --muted:rgba(232,240,255,.65);
@@ -15,9 +14,11 @@
       --line:rgba(255,255,255,.08);
       --accent:#19e3c0;
       --accent2:#21b9ff;
-      --chip:rgba(255,255,255,.08);
+      --danger:#ff5d5d;
+      --dangerBg: rgba(255,93,93,.14);
+      --good:#36e38e;
+      --goodBg: rgba(54,227,142,.14);
       --shadow: 0 16px 40px rgba(0,0,0,.55);
-      --radius:18px;
       --radius2:22px;
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
@@ -72,10 +73,9 @@
       opacity:.75;
     }
 
-    /* Top gradient header */
+    /* Header */
     .header{
       padding:14px 16px 14px;
-      position:relative;
       background:
         radial-gradient(220px 160px at 30% 10%, rgba(33,185,255,.35), transparent 60%),
         radial-gradient(280px 180px at 70% -10%, rgba(25,227,192,.22), transparent 62%),
@@ -98,6 +98,7 @@
       cursor:pointer;
       transition:transform .12s ease, background .12s ease;
       user-select:none;
+      color:rgba(232,240,255,.92);
     }
     .iconbtn:active{transform:scale(.96)}
     .iconbtn:hover{background:rgba(255,255,255,.06)}
@@ -108,10 +109,7 @@
       min-width:0;
       flex:1;
     }
-    .space{
-      font-size:12px;
-      color:rgba(232,240,255,.65);
-    }
+    .space{font-size:12px;color:rgba(232,240,255,.65)}
     .journey{
       font-size:20px;
       font-weight:750;
@@ -120,21 +118,18 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
-    .subtitle{
-      font-size:12px;
-      color:rgba(232,240,255,.55);
-      margin-top:2px;
-    }
+    .subtitle{font-size:12px;color:rgba(232,240,255,.55);margin-top:2px}
 
-    .stagebar{
+    .stagebar, .subbar{
       display:flex;
       gap:8px;
       overflow:auto;
       padding-bottom:2px;
       scrollbar-width:none;
     }
-    .stagebar::-webkit-scrollbar{display:none}
-    .stage{
+    .stagebar::-webkit-scrollbar,.subbar::-webkit-scrollbar{display:none}
+
+    .pill{
       flex:0 0 auto;
       padding:10px 12px;
       border-radius:999px;
@@ -146,19 +141,20 @@
       user-select:none;
       transition:background .15s ease, transform .12s ease, border-color .15s ease;
       display:flex; align-items:center; gap:8px;
+      white-space:nowrap;
     }
-    .stage .dot{width:8px;height:8px;border-radius:999px;background:rgba(232,240,255,.30)}
-    .stage.active{
+    .pill .dot{width:8px;height:8px;border-radius:999px;background:rgba(232,240,255,.30)}
+    .pill.active{
       background:linear-gradient(135deg, rgba(25,227,192,.20), rgba(33,185,255,.18));
       border-color:rgba(33,185,255,.35);
       color:rgba(232,240,255,.95);
     }
-    .stage.active .dot{background:var(--accent)}
-    .stage:active{transform:scale(.98)}
+    .pill.active .dot{background:var(--accent)}
+    .pill:active{transform:scale(.98)}
 
     /* Content */
     .content{
-      height: calc(100% - 34px - 0px);
+      height: calc(100% - 34px);
       overflow:auto;
       padding:14px 14px 110px;
       scrollbar-width:thin;
@@ -189,6 +185,7 @@
     .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
     .muted{color:var(--muted)}
     .muted2{color:var(--muted2)}
+
     .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
     .chip{
       font-size:11px;
@@ -199,7 +196,7 @@
       color:rgba(232,240,255,.70);
     }
 
-    .cta{display:flex; gap:10px; margin-top:12px}
+    .cta{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
     .btn{
       border:none; cursor:pointer;
       border-radius:999px;
@@ -209,17 +206,24 @@
       letter-spacing:.15px;
       transition:transform .12s ease, filter .12s ease, background .12s ease;
       user-select:none;
+      white-space:nowrap;
     }
     .btn:active{transform:scale(.98)}
     .btn.primary{
       background:linear-gradient(135deg, rgba(25,227,192,1), rgba(33,185,255,.85));
       color:#052019;
       flex:1;
+      min-width:150px;
     }
     .btn.ghost{
       background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.10);
       color:rgba(232,240,255,.90);
+    }
+    .btn.danger{
+      background:rgba(255,93,93,.14);
+      border:1px solid rgba(255,93,93,.30);
+      color:rgba(255,255,255,.92);
     }
     .btn.small{padding:9px 12px; font-size:12px}
 
@@ -231,24 +235,10 @@
       padding:12px;
     }
     .kpi .label{font-size:11px;color:rgba(232,240,255,.60)}
-    .kpi .value{font-size:18px;font-weight:800;margin-top:4px}
+    .kpi .value{font-size:16px;font-weight:800;margin-top:4px}
     .kpi .hint{font-size:11px;color:rgba(232,240,255,.45);margin-top:4px}
 
-    .progress{
-      margin-top:10px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:999px;
-      height:10px;
-      overflow:hidden;
-    }
-    .progress > div{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg, rgba(25,227,192,1), rgba(33,185,255,.9));
-      border-radius:999px;
-      transition:width .25s ease;
-    }
+    .divider{height:1px;background:rgba(255,255,255,.06);margin:10px 0}
 
     /* List items */
     .list{display:flex; flex-direction:column; gap:10px}
@@ -262,11 +252,9 @@
       cursor:pointer;
       transition:transform .12s ease, background .12s ease, border-color .12s ease;
     }
-    .item:hover{
-      background:linear-gradient(180deg, rgba(15,26,38,.92), rgba(12,18,26,.92));
-      border-color:rgba(33,185,255,.20);
-    }
+    .item:hover{border-color:rgba(33,185,255,.20)}
     .item:active{transform:scale(.99)}
+
     .thumb{
       width:56px;height:56px;border-radius:14px;
       background:
@@ -278,7 +266,7 @@
       display:grid; place-items:center;
       color:rgba(232,240,255,.80);
     }
-    .item .meta{min-width:0}
+    .item .meta{min-width:0; flex:1}
     .item .meta .t{
       font-weight:750;
       font-size:13px;
@@ -297,16 +285,61 @@
       border:1px solid rgba(255,255,255,.08);
       color:rgba(232,240,255,.65);
     }
+    .tag.good{background:var(--goodBg); border-color:rgba(54,227,142,.35); color:rgba(232,240,255,.9)}
+    .tag.bad{background:var(--dangerBg); border-color:rgba(255,93,93,.35); color:rgba(232,240,255,.95)}
     .chev{margin-left:auto;color:rgba(232,240,255,.35);display:flex;align-items:center;padding-left:6px}
 
-    .divider{height:1px;background:rgba(255,255,255,.06);margin:10px 0}
-    .empty{
+    /* Screening result styling */
+    .resultCard{
+      border-radius:18px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(15,23,33,.88), rgba(12,18,26,.88));
+      cursor:pointer;
+      transition:transform .12s ease, border-color .12s ease;
+    }
+    .resultCard:hover{border-color:rgba(33,185,255,.20)}
+    .resultCard:active{transform:scale(.99)}
+    .resultTop{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
+    .resultName{font-weight:850; font-size:13px}
+    .resultMeta{font-size:12px; color:rgba(232,240,255,.55); margin-top:4px; line-height:1.35}
+    .signal{
+      display:flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
       font-size:12px;
-      color:rgba(232,240,255,.50);
+      white-space:nowrap;
+    }
+    .signal.good{border-color:rgba(54,227,142,.28); background:rgba(54,227,142,.10)}
+    .signal.bad{border-color:rgba(255,93,93,.35); background:rgba(255,93,93,.12)}
+    .signal .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:rgba(232,240,255,.30);
+    }
+    .signal.good .dot{background:var(--good)}
+    .signal.bad .dot{background:var(--danger)}
+    .signal.bad .warn{font-weight:900}
+
+    /* Toast */
+    .toast{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:92px;
+      background:rgba(12,18,26,.95);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:999px;
       padding:10px 12px;
-      background:rgba(255,255,255,.04);
-      border:1px dashed rgba(255,255,255,.12);
-      border-radius:16px;
+      font-size:12px;
+      color:rgba(232,240,255,.85);
+      display:none;
+      box-shadow:0 10px 30px rgba(0,0,0,.5);
+      white-space:nowrap;
+      max-width:90%;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     /* Modal */
@@ -382,27 +415,7 @@
       color:rgba(232,240,255,.70);
     }
 
-    /* Toast */
-    .toast{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:92px;
-      background:rgba(12,18,26,.95);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:999px;
-      padding:10px 12px;
-      font-size:12px;
-      color:rgba(232,240,255,.85);
-      display:none;
-      box-shadow:0 10px 30px rgba(0,0,0,.5);
-      white-space:nowrap;
-      max-width:90%;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    /* Simple icons */
+    /* icons */
     .svg{width:16px;height:16px; display:block}
     .svg.big{width:18px;height:18px}
   </style>
@@ -443,17 +456,16 @@
         </button>
       </div>
 
+      <!-- Main journey stages -->
       <div class="stagebar" id="stagebar" aria-label="Journey stages">
-        <div class="stage" data-stage="pre" role="button" tabindex="0"><span class="dot"></span>Pre-conception</div>
-        <div class="stage active" data-stage="preg" role="button" tabindex="0"><span class="dot"></span>Pregnancy</div>
-        <div class="stage" data-stage="birth" role="button" tabindex="0"><span class="dot"></span>Birth</div>
-        <div class="stage" data-stage="post" role="button" tabindex="0"><span class="dot"></span>Post-birth</div>
+        <div class="pill" data-stage="pre" role="button" tabindex="0"><span class="dot"></span>Pre-conception</div>
+        <div class="pill active" data-stage="preg" role="button" tabindex="0"><span class="dot"></span>Pregnancy</div>
+        <div class="pill" data-stage="birth" role="button" tabindex="0"><span class="dot"></span>Birth</div>
+        <div class="pill" data-stage="post" role="button" tabindex="0"><span class="dot"></span>Post-birth</div>
       </div>
     </div>
 
-    <div class="content" id="content">
-      <!-- Dynamic content injected here -->
-    </div>
+    <div class="content" id="content"></div>
 
     <div class="toast" id="toast"></div>
 
@@ -509,67 +521,95 @@
         <div class="grid" id="modalGrid"></div>
         <div class="cta">
           <button class="btn ghost" id="modalClose">Close</button>
-          <button class="btn primary" id="modalPrimary">Take action</button>
+          <button class="btn primary" id="modalPrimary">Confirm</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // =========================
-    // 1) Core requirement updates:
-    //    - Auto-create profile
-    //    - Auto-start pregnancy services
-    //    - Auto-book a set of appointments through birth
-    // =========================
+    // ---------------------------
+    // Utilities
+    // ---------------------------
+    function addDays(date, days){
+      const d = new Date(date);
+      d.setDate(d.getDate() + days);
+      return d;
+    }
+    function addMonths(date, months){
+      const d = new Date(date);
+      const day = d.getDate();
+      d.setMonth(d.getMonth() + months);
+      // if month overflow caused date to shift (e.g., 31st -> next month), snap to last day
+      if (d.getDate() < day) d.setDate(0);
+      return d;
+    }
+    function fmtDate(d){
+      const dd = new Date(d);
+      return dd.toLocaleDateString(undefined, { weekday:"short", year:"numeric", month:"short", day:"numeric" });
+    }
+    function fmtShort(d){
+      const dd = new Date(d);
+      return dd.toLocaleDateString(undefined, { month:"short", day:"numeric" });
+    }
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
 
+    // "Demo time" support so you can SEE the 2-days-before notification in the prototype
+    function now(){
+      return state.simNow ? new Date(state.simNow) : new Date();
+    }
+
+    // ---------------------------
+    // Prototype data
+    // ---------------------------
     const STAGES = {
-      pre: {
-        name: "Pre-conception",
-        subtitle: "Planning • Content shown for completeness (pregnancy already started)",
-        heroTitle: "Planning (archived)",
-        heroDesc: "Pregnancy has started from the hospital confirmation. This stage remains visible for prototype navigation only.",
-        resources: [
-          { id:"pre1", title:"Planning basics", desc:"Prototype placeholder resource.", tags:["Basics"] },
-        ]
-      },
-      preg: {
-        name: "Pregnancy",
-        subtitle: "Pregnancy services started • Tailored education & milestones",
-        heroTitle: "Track progress with confidence",
-        heroDesc: "Your profile was auto-created from the hospital record. Key appointments were auto-booked to guide you to birth (prototype).",
-        resources: [
-          { id:"r1", title:"What to expect in the first trimester", desc:"Symptoms, warning signs, and what’s normal.", tags:["Trimester 1","Guidance"] },
-          { id:"r2", title:"Nutrition & supplements", desc:"Food safety, hydration, and daily routines.", tags:["Nutrition","Safety"] },
-          { id:"r3", title:"Scans & screening explained", desc:"Why scans matter and how to prepare.", tags:["Scans","Screening"] },
-          { id:"r4", title:"Mental wellbeing in pregnancy", desc:"Stress, sleep, and when to seek support.", tags:["Wellbeing","Support"] }
-        ]
-      },
-      birth: {
-        name: "Birth",
-        subtitle: "Birth • Plan delivery & prepare for hospital",
-        heroTitle: "Prepare for delivery",
-        heroDesc: "Build your birth plan, pack essentials, and review admission steps.",
-        resources: [
-          { id:"b1", title:"Signs of labor", desc:"What to watch for and when to go to hospital.", tags:["Labor","Urgent"] },
-          { id:"b2", title:"Hospital admission checklist", desc:"Documents and what to expect at triage.", tags:["Hospital","Checklist"] }
-        ]
-      },
-      post: {
-        name: "Post-birth",
-        subtitle: "Post-birth • Recovery, newborn care & follow-ups",
-        heroTitle: "Care designed for you and your child",
-        heroDesc: "Recovery, feeding guidance, immunizations, and postnatal follow-ups.",
-        resources: [
-          { id:"p1", title:"Postnatal recovery guide", desc:"Physical recovery and warning signs.", tags:["Recovery","Guidance"] },
-          { id:"p2", title:"Newborn feeding basics", desc:"Feeding guidance and when to seek help.", tags:["Feeding","Basics"] }
-        ]
+      pre:  { name:"Pre-conception", subtitle:"Planning (prototype navigation only)" },
+      preg: { name:"Pregnancy", subtitle:"Pregnancy services started • Tailored education & appointments" },
+      birth:{ name:"Birth", subtitle:"Birth • Delivery planning & admission" },
+      post: { name:"Post-birth", subtitle:"Post-birth • Newborn Screening, Vaccination, Home Visitation" }
+    };
+
+    const POST_TABS = {
+      nbs:   { name:"Newborn Screening" },
+      vacc:  { name:"Vaccination Schedule" },
+      visit: { name:"Home Visitation Program" }
+    };
+
+    // ---------------------------
+    // State
+    // ---------------------------
+    let state = {
+      stage: "preg",
+      view: "dashboard",
+      simNow: null, // set by demo buttons to showcase notifications
+      deliveryCompleted: false,
+      post: { tab:"nbs", nbsFilter:"all" },
+      journey: {
+        hospitalEvent: { facility:"Hospital (prototype)", event:"Positive pregnancy test confirmed", date: new Date() },
+        testDate: new Date(),
+        dueDate: addDays(new Date(), 260),
+        motherAppointments: [],
+        baby: {
+          name: "Baby",
+          birthDate: null,
+          screenings: [],   // NBS results after birth
+          vaccines: [],     // schedule items
+          appointments: []  // booked vaccination & home visitation/teleconsultation
+        },
+        notifications: [] // reminders, especially vaccination: 2 days in advance
       }
     };
 
-    const VIEWS = ["dashboard","resources","appointments","profile"];
-
-    // ===== UI refs =====
+    // ---------------------------
+    // UI refs
+    // ---------------------------
     const contentEl = document.getElementById("content");
     const stageSubtitle = document.getElementById("stageSubtitle");
     const stageBar = document.getElementById("stagebar");
@@ -584,35 +624,14 @@
     const modalClose = document.getElementById("modalClose");
     const modalPrimary = document.getElementById("modalPrimary");
 
-    // ===== State =====
-    let state = {
-      stage: "preg",              // auto-start pregnancy services
-      view: "dashboard",
-      onboardingComplete: true,   // auto-created
-      profileSet: true,           // auto-created
-      remindersEnabled: true,     // default on for pregnancy services
-      journeyInitialized: false,
-      journey: {
-        hospitalEvent: {
-          facility: "Hospital (prototype)",
-          event: "Positive pregnancy test confirmed",
-          date: new Date()
-        },
-        testDate: new Date(),
-        dueDate: addDays(new Date(), 260), // prototype default
-        appointments: []                  // auto-booked
-      }
-    };
-
-    // ===== Helpers =====
     function showToast(msg){
       toastEl.textContent = msg;
       toastEl.style.display = "block";
       clearTimeout(showToast._t);
-      showToast._t = setTimeout(()=> toastEl.style.display = "none", 2200);
+      showToast._t = setTimeout(()=> toastEl.style.display = "none", 2300);
     }
 
-    function openModal({title, desc, options = [], primaryLabel="Done", primaryAction=()=>{}}){
+    function openModal({title, desc, options = [], primaryLabel="Confirm", primaryAction=()=>{}}){
       modalTitle.textContent = title;
       modalDesc.textContent = desc;
       modalGrid.innerHTML = "";
@@ -636,7 +655,7 @@
 
     function setStage(stageKey){
       state.stage = stageKey;
-      Array.from(stageBar.querySelectorAll(".stage")).forEach(el=>{
+      Array.from(stageBar.querySelectorAll(".pill")).forEach(el=>{
         el.classList.toggle("active", el.dataset.stage === stageKey);
       });
       stageSubtitle.textContent = STAGES[stageKey].subtitle;
@@ -650,38 +669,1076 @@
       render();
     }
 
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+    // ---------------------------
+    // Auto create profile & start pregnancy services
+    // ---------------------------
+    function generateMotherAppointments(testDate, dueDate){
+      const t = new Date(testDate);
+      const d = new Date(dueDate);
+
+      const templates = [
+        { id:"m1", title:"First prenatal visit (OB-GYN / Midwife)", date:addDays(t, 3), type:"Consultation", stage:"preg" },
+        { id:"m2", title:"Dating ultrasound scan",                date:addDays(t, 10), type:"Scan",         stage:"preg" },
+        { id:"m3", title:"Anatomy scan (20-week scan)",           date:addDays(t, 90), type:"Scan",         stage:"preg" },
+        { id:"m4", title:"Birth plan appointment",                date:addDays(d, -20),type:"Planning",     stage:"birth" },
+        { id:"m5", title:"Delivery (estimated due date)",         date:d,              type:"Delivery",     stage:"birth" }
+      ];
+
+      return templates
+        .map(x => ({...x, status:"Booked", location:"Hospital / Clinic (prototype)", for:"mother"}))
+        .sort((a,b)=> new Date(a.date) - new Date(b.date));
     }
 
-    function addDays(date, days){
-      const d = new Date(date);
-      d.setDate(d.getDate() + days);
-      return d;
+    function initPregnancyFlow(){
+      state.stage = "preg";
+      state.view = "dashboard";
+      state.journey.motherAppointments = generateMotherAppointments(state.journey.testDate, state.journey.dueDate);
+      // profile is assumed auto-created from the hospital record
+      showToast("Profile auto-created • Pregnancy services active");
     }
 
-    function daysBetween(a,b){
-      const ms = (new Date(b)).getTime() - (new Date(a)).getTime();
-      return Math.round(ms / (1000*60*60*24));
+    // ---------------------------
+    // Post-birth: Birth completed -> create NBS results + vaccines schedule
+    // ---------------------------
+    function generateNBSResults(babyBirthDate){
+      const base = addDays(babyBirthDate, 1); // day after birth in ward (prototype)
+      return [
+        {
+          id:"nbs-hearing",
+          name:"Hearing Screening (NBS)",
+          status:"Negative",
+          date: base,
+          summary:"No concerns identified in hearing screening.",
+          details:"Result: Negative (Normal)\n\nNext steps:\n• No further action needed unless symptoms appear.\n• Continue routine follow-ups as per pediatric guidance."
+        },
+        {
+          id:"nbs-physical",
+          name:"Physical Examination (NBS)",
+          status:"Negative",
+          date: base,
+          summary:"Normal newborn physical examination.",
+          details:"Result: Negative (Normal)\n\nNext steps:\n• Routine care.\n• Ask the nurse/doctor if you have concerns."
+        },
+        {
+          id:"nbs-congenital",
+          name:"Congenital Screening (NBS)",
+          status:"Positive",
+          date: base,
+          summary:"A potential concern was detected and needs follow-up.",
+          details:"Result: Positive (Alert)\n\nThis does not always mean a confirmed condition.\n\nNext steps:\n• A confirmatory test will be arranged.\n• A clinician will explain the findings and the plan.\n• You can book a follow-up appointment in TAMM."
+        }
+      ];
     }
 
-    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-
-    function fmtDate(d){
-      const dd = new Date(d);
-      return dd.toLocaleDateString(undefined, { weekday:"short", year:"numeric", month:"short", day:"numeric" });
+    function generateVaccineSchedule(babyBirthDate){
+      const months = [1,2,4,6,8,12];
+      return months.map(m => ({
+        id:`vx-${m}`,
+        month: m,
+        label: `${m} month vaccination`,
+        dueDate: addMonths(babyBirthDate, m),
+        status: "Due",          // Due | Booked | Completed
+        appointmentId: null
+      })).sort((a,b)=> new Date(a.dueDate)-new Date(b.dueDate));
     }
 
-    function fmtShort(d){
-      const dd = new Date(d);
-      return dd.toLocaleDateString(undefined, { month:"short", day:"numeric" });
+    function completeBirthAndTransferToPostnatal(){
+      if(state.deliveryCompleted) return;
+
+      state.deliveryCompleted = true;
+
+      // baby is born now (prototype)
+      const birthDate = now();
+      state.journey.baby.birthDate = birthDate;
+
+      // create newborn screening results
+      state.journey.baby.screenings = generateNBSResults(birthDate);
+
+      // create vaccination schedule
+      state.journey.baby.vaccines = generateVaccineSchedule(birthDate);
+
+      // jump to post-birth stage and default sub-stage = NBS
+      state.stage = "post";
+      state.post.tab = "nbs";
+      state.post.nbsFilter = "all";
+      state.view = "dashboard";
+
+      // update stage pills UI
+      Array.from(stageBar.querySelectorAll(".pill")).forEach(el=>{
+        el.classList.toggle("active", el.dataset.stage === "post");
+      });
+      stageSubtitle.textContent = STAGES.post.subtitle;
+
+      showToast("Birth completed • Transferred to postnatal ward");
+      render();
     }
 
+    // ---------------------------
+    // Notifications (2 days before vaccination appointment)
+    // ---------------------------
+    function scheduleReminderForAppointment(appt){
+      // exactly as requested: 2 days in advance
+      const fireDate = addDays(appt.date, -2);
+
+      const reminder = {
+        id: `ntf-${Math.random().toString(16).slice(2)}`,
+        fireDate,
+        apptId: appt.id,
+        title: "Upcoming vaccination appointment",
+        message: `Your baby’s vaccination appointment is in 2 days: ${appt.title} on ${fmtDate(appt.date)}.`
+      };
+
+      state.journey.notifications.push(reminder);
+      state.journey.notifications.sort((a,b)=> new Date(a.fireDate)-new Date(b.fireDate));
+    }
+
+    function getActiveNotifications(){
+      const t = now();
+      // Active window: from fireDate until the appointment date
+      const apptById = getAllAppointments().reduce((acc,a)=> (acc[a.id]=a, acc), {});
+      return state.journey.notifications.filter(n=>{
+        const appt = apptById[n.apptId];
+        if(!appt) return false;
+        return (new Date(n.fireDate) <= t) && (t < new Date(appt.date));
+      });
+    }
+
+    // ---------------------------
+    // Booking flows
+    // ---------------------------
+    function bookNextVaccination(){
+      if(!state.deliveryCompleted){
+        showToast("Complete birth first (prototype).");
+        return;
+      }
+      const next = state.journey.baby.vaccines.find(v => v.status === "Due");
+      if(!next){
+        showToast("No due vaccines left (prototype).");
+        return;
+      }
+
+      let selectedDate = new Date(next.dueDate);
+
+      openModal({
+        title: `Book vaccination • ${next.month} month`,
+        desc:
+          `Baby: ${state.journey.baby.name}\n` +
+          `Due date: ${fmtDate(next.dueDate)}\n\n` +
+          `Confirm the vaccination appointment date.\n` +
+          `After confirmation, TAMM will send a reminder 2 days before the appointment.`,
+        options: [
+          { k:"Select date", v: fmtDate(selectedDate) },
+          { k:"Adjust", v:"+ 3 days", onClick: ()=>{ selectedDate = addDays(selectedDate, 3); showToast(`Selected: ${fmtDate(selectedDate)}`);} },
+          { k:"Adjust", v:"- 3 days", onClick: ()=>{ selectedDate = addDays(selectedDate, -3); showToast(`Selected: ${fmtDate(selectedDate)}`);} },
+          { k:"Demo", v:"Set appointment 5 days from today", onClick: ()=>{ selectedDate = addDays(now(), 5); showToast(`Selected: ${fmtDate(selectedDate)}`);} }
+        ],
+        primaryLabel: "Confirm booking",
+        primaryAction: ()=>{
+          // create appointment
+          const appt = {
+            id: `bvx-${Math.random().toString(16).slice(2)}`,
+            for: "baby",
+            title: `Vaccination • ${next.month} month`,
+            type: "Vaccination",
+            date: selectedDate,
+            location: "Vaccination clinic (prototype)",
+            status: "Confirmed"
+          };
+          state.journey.baby.appointments.push(appt);
+
+          // link to vaccine schedule item
+          next.status = "Booked";
+          next.appointmentId = appt.id;
+
+          // schedule reminder 2 days before
+          scheduleReminderForAppointment(appt);
+
+          showToast("Vaccination booked • Reminder scheduled (2 days before)");
+          render();
+        }
+      });
+    }
+
+    function bookHomeVisitOrTele(type){
+      if(!state.deliveryCompleted){
+        showToast("Complete birth first (prototype).");
+        return;
+      }
+
+      const isHome = type === "home";
+      const title = isHome ? "Home visitation" : "Teleconsultation";
+
+      openModal({
+        title: `Book ${title}`,
+        desc:
+          (isHome
+            ? "A clinician visits you at home to support mother & baby postnatal care."
+            : "A remote consultation (video/phone) for postnatal support and questions."
+          ) +
+          "\n\nNext steps (prototype):\n" +
+          (isHome
+            ? "1) Choose date/time\n2) Confirm home address\n3) Confirm booking"
+            : "1) Choose date/time\n2) Confirm preferred contact method\n3) Confirm booking"
+          ),
+        options: [
+          { k:"Service", v: title },
+          { k:"When", v: "Choose date/time (placeholder)", onClick: ()=> showToast("Choose time (prototype).") },
+          { k:"Details", v: isHome ? "Confirm address" : "Confirm contact method", onClick: ()=> showToast("Enter details (prototype).") }
+        ],
+        primaryLabel: "Confirm",
+        primaryAction: ()=>{
+          const appt = {
+            id: `post-${Math.random().toString(16).slice(2)}`,
+            for: "baby",
+            title: isHome ? "Home visitation (postnatal)" : "Teleconsultation (postnatal)",
+            type: isHome ? "Home Visit" : "Teleconsultation",
+            date: addDays(now(), 7), // placeholder
+            location: isHome ? "Home address (prototype)" : "Virtual (prototype)",
+            status: "Requested"
+          };
+          state.journey.baby.appointments.push(appt);
+          showToast(`${title} requested (prototype).`);
+          render();
+        }
+      });
+    }
+
+    // ---------------------------
+    // Queries
+    // ---------------------------
+    function getAllAppointments(){
+      const mother = state.journey.motherAppointments || [];
+      const baby = state.journey.baby.appointments || [];
+      return [...mother, ...baby].sort((a,b)=> new Date(a.date)-new Date(b.date));
+    }
+
+    // ---------------------------
+    // Renderers
+    // ---------------------------
+    function renderDashboardPregnancy(){
+      const appts = state.journey.motherAppointments;
+      const next = appts.find(a => new Date(a.date) >= now()) || appts[0];
+
+      contentEl.innerHTML = `
+        <div class="card">
+          <div class="row">
+            <div style="min-width:0">
+              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Hospital-triggered start</div>
+              <div style="font-size:16px;font-weight:850;letter-spacing:.2px">${escapeHtml(state.journey.hospitalEvent.event)}</div>
+              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+                Facility: ${escapeHtml(state.journey.hospitalEvent.facility)}<br/>
+                Confirmation date: ${fmtDate(state.journey.testDate)}<br/>
+                Profile: <b>Auto-created</b> • Pregnancy services: <b>Active</b>
+              </div>
+              <div class="chips">
+                <span class="chip">Appointments booked</span>
+                <span class="chip">Tailored education</span>
+              </div>
+            </div>
+            <div class="thumb" aria-hidden="true">${svgBadge("heart")}</div>
+          </div>
+          <div class="cta">
+            <button class="btn primary" id="goAppts">View appointments</button>
+            <button class="btn ghost" id="jumpBirth">Go to Birth stage</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Next appointment</h3>
+            <button class="linkbtn" id="apptsAll">View all</button>
+          </div>
+
+          <div class="card">
+            <div style="font-weight:850">${escapeHtml(next?.title || "—")}</div>
+            <div class="muted" style="font-size:12px;margin-top:6px;line-height:1.45">
+              ${next ? `${fmtDate(next.date)} • ${escapeHtml(next.location)}` : "No appointments (prototype)."}
+            </div>
+            <div class="cta">
+              <button class="btn primary" id="simulateBirth">Simulate birth & go to Post-birth</button>
+              <button class="btn ghost" id="demoReset">Reset demo date</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("goAppts").onclick = ()=> setView("appointments");
+      document.getElementById("apptsAll").onclick = ()=> setView("appointments");
+      document.getElementById("jumpBirth").onclick = ()=> setStage("birth");
+      document.getElementById("simulateBirth").onclick = ()=> completeBirthAndTransferToPostnatal();
+      document.getElementById("demoReset").onclick = ()=> { state.simNow=null; showToast("Demo date reset."); render(); };
+    }
+
+    function renderDashboardBirth(){
+      contentEl.innerHTML = `
+        <div class="card">
+          <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Birth stage</div>
+          <div style="font-size:18px;font-weight:900">Delivery & admission (prototype)</div>
+          <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+            When birth is completed, mother & baby transfer to the postnatal ward.
+          </div>
+          <div class="cta">
+            <button class="btn primary" id="completeBirth">Complete birth & transfer to postnatal</button>
+            <button class="btn ghost" id="viewSchedule">View schedule</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Appointments</h3>
+            <button class="linkbtn" id="apptsAll">View all</button>
+          </div>
+
+          <div class="list" id="birthApptList"></div>
+        </div>
+      `;
+
+      const birthAppts = state.journey.motherAppointments.filter(a => a.stage === "birth");
+      const list = document.getElementById("birthApptList");
+      list.innerHTML = birthAppts.map(a => `
+        <div class="item" data-appt="${a.id}">
+          <div class="thumb">${svgBadge("cal")}</div>
+          <div class="meta">
+            <div class="t">${escapeHtml(a.title)}</div>
+            <div class="d">${fmtDate(a.date)} • ${escapeHtml(a.location)}</div>
+            <div class="tags">
+              <span class="tag">${escapeHtml(a.type)}</span>
+              <span class="tag">${escapeHtml(a.status)}</span>
+            </div>
+          </div>
+          <div class="chev">›</div>
+        </div>
+      `).join("");
+
+      document.getElementById("completeBirth").onclick = ()=> completeBirthAndTransferToPostnatal();
+      document.getElementById("viewSchedule").onclick = ()=> setView("appointments");
+      document.getElementById("apptsAll").onclick = ()=> setView("appointments");
+
+      list.querySelectorAll("[data-appt]").forEach(el=>{
+        el.onclick = ()=>{
+          const appt = state.journey.motherAppointments.find(x=>x.id===el.dataset.appt);
+          if(!appt) return;
+          openModal({
+            title: appt.title,
+            desc: `${fmtDate(appt.date)}\n${appt.location}\n\nStatus: ${appt.status}`,
+            options: [
+              {k:"Type", v: appt.type},
+              {k:"Stage", v: "Birth"}
+            ],
+            primaryLabel: "OK",
+            primaryAction: ()=>{}
+          });
+        };
+      });
+    }
+
+    function renderPostDashboard(){
+      const baby = state.journey.baby;
+      const activeNotifs = getActiveNotifications();
+
+      const banner = !state.deliveryCompleted ? `
+        <div class="card">
+          <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Post-birth stage</div>
+          <div style="font-size:16px;font-weight:900">Complete birth to start postnatal programs</div>
+          <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+            Prototype gate: newborn screening and vaccination schedule become available after birth.
+          </div>
+          <div class="cta">
+            <button class="btn primary" id="postCompleteBirth">Complete birth now</button>
+            <button class="btn ghost" id="postBackBirth">Go to Birth stage</button>
+          </div>
+        </div>
+      ` : `
+        <div class="card">
+          <div class="row">
+            <div style="min-width:0">
+              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Postnatal ward</div>
+              <div style="font-size:16px;font-weight:900">Mother & baby transferred</div>
+              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+                Baby: <b>${escapeHtml(baby.name)}</b><br/>
+                Birth date: ${fmtDate(baby.birthDate)}<br/>
+                Demo date: ${fmtDate(now())} ${state.simNow ? "(simulated)" : "(real time)"}
+              </div>
+              <div class="chips">
+                <span class="chip">Newborn Screening</span>
+                <span class="chip">Vaccination schedule</span>
+                <span class="chip">Home visitation</span>
+              </div>
+            </div>
+            <div class="thumb" aria-hidden="true">${svgBadge("heart")}</div>
+          </div>
+
+          ${activeNotifs.length ? `
+            <div class="divider"></div>
+            <div style="font-weight:900;margin-bottom:6px">Notifications</div>
+            ${activeNotifs.map(n=>`
+              <div class="resultCard" style="border-color:rgba(33,185,255,.22);">
+                <div class="resultTop">
+                  <div>
+                    <div class="resultName">${escapeHtml(n.title)}</div>
+                    <div class="resultMeta">${escapeHtml(n.message)}</div>
+                  </div>
+                  <div class="signal good"><span class="dot"></span>Active</div>
+                </div>
+              </div>
+            `).join("")}
+          ` : ""}
+        </div>
+      `;
+
+      // Post-birth sub-stages (separated via tabs)
+      const subbar = `
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Post-birth programs</h3>
+            <button class="linkbtn" id="resetDemo">Reset demo date</button>
+          </div>
+          <div class="subbar" id="postSubbar" aria-label="Post-birth sub-stages">
+            <div class="pill ${state.post.tab==="nbs"?"active":""}" data-posttab="nbs"><span class="dot"></span>${POST_TABS.nbs.name}</div>
+            <div class="pill ${state.post.tab==="vacc"?"active":""}" data-posttab="vacc"><span class="dot"></span>${POST_TABS.vacc.name}</div>
+            <div class="pill ${state.post.tab==="visit"?"active":""}" data-posttab="visit"><span class="dot"></span>${POST_TABS.visit.name}</div>
+          </div>
+        </div>
+      `;
+
+      contentEl.innerHTML = banner + subbar + renderPostTabContent();
+
+      // Wire banner
+      const btn = document.getElementById("postCompleteBirth");
+      if(btn) btn.onclick = ()=> completeBirthAndTransferToPostnatal();
+      const back = document.getElementById("postBackBirth");
+      if(back) back.onclick = ()=> setStage("birth");
+
+      // Sub tabs
+      const postSubbar = document.getElementById("postSubbar");
+      postSubbar.querySelectorAll("[data-posttab]").forEach(el=>{
+        el.onclick = ()=>{
+          state.post.tab = el.dataset.posttab;
+          render();
+        };
+      });
+
+      // Demo reset
+      document.getElementById("resetDemo").onclick = ()=>{
+        state.simNow = null;
+        showToast("Demo date reset.");
+        render();
+      };
+
+      // Wire post-tab-specific controls after render
+      wirePostTabInteractions();
+    }
+
+    function renderPostTabContent(){
+      if(!state.deliveryCompleted){
+        return `
+          <div class="card">
+            <div style="font-weight:900">Waiting for birth completion…</div>
+            <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+              Complete birth to view Newborn Screening results and create the baby’s vaccination schedule.
+            </div>
+          </div>
+        `;
+      }
+
+      if(state.post.tab === "nbs") return renderNBS();
+      if(state.post.tab === "vacc") return renderVaccinations();
+      if(state.post.tab === "visit") return renderVisitation();
+      return "";
+    }
+
+    function renderNBS(){
+      const baby = state.journey.baby;
+      const filter = state.post.nbsFilter;
+
+      const all = baby.screenings || [];
+      const filtered = all.filter(r=>{
+        if(filter === "all") return true;
+        if(filter === "neg") return r.status === "Negative";
+        if(filter === "pos") return r.status === "Positive";
+        return true;
+      });
+
+      return `
+        <div class="card">
+          <div class="row">
+            <div style="min-width:0">
+              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Newborn Screening (NBS)</div>
+              <div style="font-size:18px;font-weight:900">Screening results</div>
+              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+                View your baby’s screening results for hearing, physical, and congenital checks.
+                Positive results show an alert signal.
+              </div>
+            </div>
+            <div class="thumb">${svgBadge("book")}</div>
+          </div>
+
+          <div class="divider"></div>
+          <div class="chips" style="margin-top:0">
+            <span class="chip" style="cursor:pointer" id="fltAll">All</span>
+            <span class="chip" style="cursor:pointer" id="fltNeg">Negative</span>
+            <span class="chip" style="cursor:pointer" id="fltPos">Positive</span>
+          </div>
+          <div class="muted2" style="font-size:11px;margin-top:8px">
+            Filter: <b>${filter === "all" ? "All" : (filter === "neg" ? "Negative" : "Positive")}</b>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Results</h3>
+            <button class="linkbtn" id="nbsHelp">What does Positive mean?</button>
+          </div>
+
+          <div class="list">
+            ${filtered.map(r=>{
+              const isPos = r.status === "Positive";
+              return `
+                <div class="resultCard" data-nbs="${r.id}">
+                  <div class="resultTop">
+                    <div style="min-width:0">
+                      <div class="resultName">${escapeHtml(r.name)}</div>
+                      <div class="resultMeta">${fmtDate(r.date)} • ${escapeHtml(r.summary)}</div>
+                      <div class="tags" style="margin-top:10px">
+                        ${isPos
+                          ? `<span class="tag bad">Positive</span><span class="tag">Follow-up needed</span>`
+                          : `<span class="tag good">Negative</span><span class="tag">Normal</span>`
+                        }
+                      </div>
+                    </div>
+                    ${isPos
+                      ? `<div class="signal bad" aria-label="Alert"><span class="dot"></span><span class="warn">⚠ Alert</span></div>`
+                      : `<div class="signal good"><span class="dot"></span>Normal</div>`
+                    }
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderVaccinations(){
+      const baby = state.journey.baby;
+      const schedule = baby.vaccines || [];
+      const nextDue = schedule.find(v => v.status === "Due");
+      const nextBooked = schedule.find(v => v.status === "Booked");
+      const activeNotifs = getActiveNotifications();
+
+      // Next reminder (scheduled but not yet active)
+      const apptsById = (baby.appointments || []).reduce((acc,a)=> (acc[a.id]=a, acc), {});
+      const futureReminders = state.journey.notifications
+        .map(n=>({n, appt: apptsById[n.apptId]}))
+        .filter(x=>x.appt && new Date(x.n.fireDate) > now())
+        .sort((a,b)=> new Date(a.n.fireDate) - new Date(b.n.fireDate));
+
+      const nextReminder = futureReminders[0] || null;
+
+      return `
+        <div class="card">
+          <div class="row">
+            <div style="min-width:0">
+              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Vaccination</div>
+              <div style="font-size:18px;font-weight:900">Vaccination schedule</div>
+              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+                Schedule includes: 1, 2, 4, 6, 8, and 12 months.
+                Book the next appointment and receive a reminder 2 days in advance.
+              </div>
+            </div>
+            <div class="thumb">${svgBadge("cal")}</div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="kpiwrap">
+            <div class="kpi">
+              <div class="label">Next due</div>
+              <div class="value">${nextDue ? `${nextDue.month} month` : "—"}</div>
+              <div class="hint">${nextDue ? fmtDate(nextDue.dueDate) : "All scheduled"}</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Booked</div>
+              <div class="value">${schedule.filter(v=>v.status==="Booked").length}</div>
+              <div class="hint">${nextBooked ? `Next booked: ${nextBooked.month} month` : "None yet"}</div>
+            </div>
+          </div>
+
+          <div class="cta">
+            <button class="btn primary" id="bookNextVx" ${nextDue ? "" : "disabled"}>Book next vaccination</button>
+            <button class="btn ghost" id="viewAllAppts">View all appointments</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Schedule</h3>
+            <button class="linkbtn" id="vxAbout">About reminders</button>
+          </div>
+
+          <div class="list">
+            ${schedule.map(v=>{
+              const statusTag =
+                v.status === "Due" ? `<span class="tag">Due</span>` :
+                v.status === "Booked" ? `<span class="tag good">Booked</span>` :
+                `<span class="tag">Completed</span>`;
+
+              const appt = v.appointmentId ? apptsById[v.appointmentId] : null;
+
+              return `
+                <div class="item" data-vx="${v.id}">
+                  <div class="thumb">${svgBadge("cal")}</div>
+                  <div class="meta">
+                    <div class="t">${escapeHtml(v.label)}</div>
+                    <div class="d">
+                      Due: ${fmtDate(v.dueDate)}
+                      ${appt ? `<br/>Appointment: ${fmtDate(appt.date)} • ${escapeHtml(appt.status)}` : ""}
+                    </div>
+                    <div class="tags">
+                      ${statusTag}
+                      <span class="tag">${v.month} mo</span>
+                    </div>
+                  </div>
+                  <div class="chev">›</div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Notifications</h3>
+            <button class="linkbtn" id="demoTools">Demo tools</button>
+          </div>
+
+          <div class="card">
+            <div style="font-weight:900">Reminder rule</div>
+            <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+              Once a vaccination appointment is confirmed, a notification is scheduled exactly <b>2 days before</b>.
+            </div>
+
+            <div class="divider"></div>
+
+            ${activeNotifs.length ? `
+              <div class="signal good" style="display:inline-flex"><span class="dot"></span>Notification active</div>
+              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:10px">
+                ${escapeHtml(activeNotifs[0].message)}
+              </div>
+            ` : `
+              <div class="muted" style="font-size:12px;line-height:1.45">
+                ${nextReminder
+                  ? `Next reminder will trigger on <b>${fmtDate(nextReminder.n.fireDate)}</b> (for ${escapeHtml(nextReminder.appt.title)}).`
+                  : "No reminders scheduled yet. Book a vaccination to create one."
+                }
+              </div>
+            `}
+
+            <div class="cta">
+              <button class="btn ghost" id="fastForwardReminder" ${nextReminder ? "" : "disabled"}>Fast-forward to reminder date</button>
+              <button class="btn ghost" id="fastForwardAppt" ${nextReminder ? "" : "disabled"}>Fast-forward to appointment date</button>
+              <button class="btn danger" id="resetTime">Reset demo date</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderVisitation(){
+      return `
+        <div class="card">
+          <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Home Visitation Program</div>
+          <div style="font-size:18px;font-weight:900">Choose your support option</div>
+          <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+            Book a home visit or a teleconsultation. Each service is separate, with clear next steps.
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sectionhead">
+            <h3>Services</h3>
+            <button class="linkbtn" id="visitHelp">What happens next?</button>
+          </div>
+
+          <div class="card">
+            <div style="font-weight:900">Home visitation</div>
+            <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+              A clinician visits your home to support mother & baby (feeding, recovery, newborn care).
+            </div>
+            <div class="chips">
+              <span class="chip">In-person support</span>
+              <span class="chip">Home-based</span>
+              <span class="chip">Postnatal guidance</span>
+            </div>
+            <div class="divider"></div>
+            <div class="muted2" style="font-size:11px">Next steps</div>
+            <div class="chips">
+              <span class="chip">Choose date/time</span>
+              <span class="chip">Confirm address</span>
+              <span class="chip">Confirm booking</span>
+            </div>
+            <div class="cta">
+              <button class="btn primary" id="bookHomeVisit">Book home visitation</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="font-weight:900">Teleconsultation</div>
+            <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+              Remote consultation (video/phone) for questions and postnatal support.
+            </div>
+            <div class="chips">
+              <span class="chip">Remote support</span>
+              <span class="chip">Flexible timing</span>
+              <span class="chip">Quick advice</span>
+            </div>
+            <div class="divider"></div>
+            <div class="muted2" style="font-size:11px">Next steps</div>
+            <div class="chips">
+              <span class="chip">Choose date/time</span>
+              <span class="chip">Confirm contact method</span>
+              <span class="chip">Confirm booking</span>
+            </div>
+            <div class="cta">
+              <button class="btn primary" id="bookTele">Book teleconsultation</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function wirePostTabInteractions(){
+      // NBS filter
+      const fltAll = document.getElementById("fltAll");
+      const fltNeg = document.getElementById("fltNeg");
+      const fltPos = document.getElementById("fltPos");
+      if(fltAll) fltAll.onclick = ()=>{ state.post.nbsFilter="all"; render(); };
+      if(fltNeg) fltNeg.onclick = ()=>{ state.post.nbsFilter="neg"; render(); };
+      if(fltPos) fltPos.onclick = ()=>{ state.post.nbsFilter="pos"; render(); };
+
+      // NBS help + click result
+      const nbsHelp = document.getElementById("nbsHelp");
+      if(nbsHelp){
+        nbsHelp.onclick = ()=> openModal({
+          title:"Positive vs Negative (NBS)",
+          desc:
+            "Negative: No concern detected in screening.\n\n" +
+            "Positive: A potential concern detected → follow-up testing is needed.\n\n" +
+            "In this prototype, positive results show an ⚠ alert signal.",
+          options:[
+            {k:"Tip", v:"Tap a result to view details"},
+            {k:"Next", v:"Book follow-up (future feature)"}
+          ],
+          primaryLabel:"OK",
+          primaryAction: ()=>{}
+        });
+      }
+
+      contentEl.querySelectorAll("[data-nbs]").forEach(el=>{
+        el.onclick = ()=>{
+          const r = state.journey.baby.screenings.find(x=>x.id===el.dataset.nbs);
+          if(!r) return;
+          const isPos = r.status === "Positive";
+          openModal({
+            title: r.name,
+            desc: `${fmtDate(r.date)}\n\nStatus: ${r.status}\n\n${r.details}`,
+            options:[
+              {k:"Signal", v: isPos ? "⚠ Alert" : "Normal"},
+              {k:"Stage", v:"Postnatal ward"}
+            ],
+            primaryLabel: isPos ? "Acknowledge" : "OK",
+            primaryAction: ()=>{ showToast(isPos ? "Acknowledged (prototype)." : ""); }
+          });
+        };
+      });
+
+      // Vaccinations
+      const bookNextVx = document.getElementById("bookNextVx");
+      if(bookNextVx) bookNextVx.onclick = ()=> bookNextVaccination();
+
+      const viewAllAppts = document.getElementById("viewAllAppts");
+      if(viewAllAppts) viewAllAppts.onclick = ()=> setView("appointments");
+
+      const vxAbout = document.getElementById("vxAbout");
+      if(vxAbout){
+        vxAbout.onclick = ()=> openModal({
+          title:"Vaccination reminders",
+          desc:
+            "When you confirm a baby vaccination appointment, TAMM schedules a reminder exactly 2 days before.\n\n" +
+            "This prototype includes demo tools to fast-forward time so you can see the notification state.",
+          options:[
+            {k:"Rule", v:"Reminder = Appointment - 2 days"},
+            {k:"Demo", v:"Use fast-forward buttons"}
+          ],
+          primaryLabel:"OK",
+          primaryAction: ()=>{}
+        });
+      }
+
+      contentEl.querySelectorAll("[data-vx]").forEach(el=>{
+        el.onclick = ()=>{
+          const v = state.journey.baby.vaccines.find(x=>x.id===el.dataset.vx);
+          if(!v) return;
+
+          const appt = v.appointmentId
+            ? state.journey.baby.appointments.find(a=>a.id===v.appointmentId)
+            : null;
+
+          openModal({
+            title: v.label,
+            desc:
+              `Due: ${fmtDate(v.dueDate)}\n` +
+              `Status: ${v.status}\n\n` +
+              (appt ? `Appointment: ${fmtDate(appt.date)} (${appt.status})\nLocation: ${appt.location}\n\n` : "") +
+              "Next iteration: vaccine types list, contraindications, consent, and clinic selection.",
+            options:[
+              {k:"Month", v:`${v.month}`},
+              {k:"Action", v: (v.status==="Due" ? "Book now" : (v.status==="Booked" ? "View appointment" : "Completed"))}
+            ],
+            primaryLabel: (v.status==="Due" ? "Book" : "OK"),
+            primaryAction: ()=>{
+              if(v.status==="Due") bookNextVaccination();
+            }
+          });
+        };
+      });
+
+      // Notifications demo tools
+      const demoTools = document.getElementById("demoTools");
+      if(demoTools){
+        demoTools.onclick = ()=> showToast("Use fast-forward buttons below (prototype).");
+      }
+
+      const fastForwardReminder = document.getElementById("fastForwardReminder");
+      const fastForwardAppt = document.getElementById("fastForwardAppt");
+      const resetTime = document.getElementById("resetTime");
+
+      if(fastForwardReminder || fastForwardAppt){
+        // find next future reminder and its appointment
+        const apptsById = (state.journey.baby.appointments || []).reduce((acc,a)=> (acc[a.id]=a, acc), {});
+        const future = state.journey.notifications
+          .map(n=>({n, appt: apptsById[n.apptId]}))
+          .filter(x=>x.appt && new Date(x.n.fireDate) > now())
+          .sort((a,b)=> new Date(a.n.fireDate)-new Date(b.n.fireDate))[0];
+
+        if(future){
+          if(fastForwardReminder){
+            fastForwardReminder.onclick = ()=>{
+              state.simNow = new Date(future.n.fireDate);
+              showToast(`Demo date set: ${fmtDate(state.simNow)} (reminder active)`);
+              render();
+            };
+          }
+          if(fastForwardAppt){
+            fastForwardAppt.onclick = ()=>{
+              state.simNow = new Date(future.appt.date);
+              showToast(`Demo date set: ${fmtDate(state.simNow)} (appointment day)`);
+              render();
+            };
+          }
+        }
+      }
+
+      if(resetTime){
+        resetTime.onclick = ()=>{
+          state.simNow = null;
+          showToast("Demo date reset.");
+          render();
+        };
+      }
+
+      // Home visitation
+      const visitHelp = document.getElementById("visitHelp");
+      if(visitHelp){
+        visitHelp.onclick = ()=> openModal({
+          title:"Home visitation • Next steps",
+          desc:
+            "Home visitation:\n1) Choose date/time\n2) Confirm address\n3) Clinician visits\n\n" +
+            "Teleconsultation:\n1) Choose date/time\n2) Confirm contact method\n3) Join via link/call\n\n" +
+            "Prototype: bookings create a request entry in appointments.",
+          options:[
+            {k:"Tip", v:"Check Appointments after booking"},
+            {k:"Future", v:"Add eligibility & triage rules"}
+          ],
+          primaryLabel:"OK",
+          primaryAction: ()=>{}
+        });
+      }
+
+      const bookHomeVisit = document.getElementById("bookHomeVisit");
+      if(bookHomeVisit) bookHomeVisit.onclick = ()=> bookHomeVisitOrTele("home");
+
+      const bookTele = document.getElementById("bookTele");
+      if(bookTele) bookTele.onclick = ()=> bookHomeVisitOrTele("tele");
+    }
+
+    function renderAppointments(){
+      const appts = getAllAppointments();
+
+      // basic grouping
+      const mother = appts.filter(a=>a.for==="mother");
+      const baby = appts.filter(a=>a.for==="baby");
+
+      contentEl.innerHTML = `
+        <div class="card">
+          <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Appointments</div>
+          <div style="font-size:18px;font-weight:900">Mother & Baby schedule</div>
+          <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+            Includes pregnancy/birth appointments and post-birth bookings (vaccination + visitation).
+          </div>
+          <div class="cta">
+            <button class="btn ghost" id="goPost">Go to Post-birth</button>
+            <button class="btn primary" id="bookVxFromAppts">Book next vaccination</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sectionhead"><h3>Baby</h3><button class="linkbtn" id="babyHint">Details</button></div>
+          ${baby.length ? `
+            <div class="list">
+              ${baby.map(a=>`
+                <div class="item" data-apptid="${a.id}">
+                  <div class="thumb">${svgBadge(a.type==="Vaccination" ? "cal" : "heart")}</div>
+                  <div class="meta">
+                    <div class="t">${escapeHtml(a.title)}</div>
+                    <div class="d">${fmtDate(a.date)} • ${escapeHtml(a.location)}</div>
+                    <div class="tags">
+                      <span class="tag">${escapeHtml(a.type)}</span>
+                      <span class="tag good">${escapeHtml(a.status)}</span>
+                    </div>
+                  </div>
+                  <div class="chev">›</div>
+                </div>
+              `).join("")}
+            </div>
+          ` : `<div class="card"><div class="muted" style="font-size:12px">No baby appointments yet. Book a vaccination or visitation.</div></div>`}
+        </div>
+
+        <div class="section">
+          <div class="sectionhead"><h3>Mother</h3><button class="linkbtn" id="motherHint">Details</button></div>
+          ${mother.length ? `
+            <div class="list">
+              ${mother.map(a=>`
+                <div class="item" data-apptid="${a.id}">
+                  <div class="thumb">${svgBadge("cal")}</div>
+                  <div class="meta">
+                    <div class="t">${escapeHtml(a.title)}</div>
+                    <div class="d">${fmtDate(a.date)} • ${escapeHtml(a.location)}</div>
+                    <div class="tags">
+                      <span class="tag">${escapeHtml(a.type)}</span>
+                      <span class="tag">${escapeHtml(a.status)}</span>
+                    </div>
+                  </div>
+                  <div class="chev">›</div>
+                </div>
+              `).join("")}
+            </div>
+          ` : `<div class="card"><div class="muted" style="font-size:12px">No mother appointments (prototype).</div></div>`}
+        </div>
+      `;
+
+      document.getElementById("goPost").onclick = ()=> setStage("post");
+      document.getElementById("bookVxFromAppts").onclick = ()=> bookNextVaccination();
+
+      document.getElementById("babyHint").onclick = ()=> showToast("Baby appointments: vaccination + postnatal services.");
+      document.getElementById("motherHint").onclick = ()=> showToast("Mother appointments: prenatal + delivery.");
+
+      contentEl.querySelectorAll("[data-apptid]").forEach(el=>{
+        el.onclick = ()=>{
+          const appt = getAllAppointments().find(a=>a.id===el.dataset.apptid);
+          if(!appt) return;
+          openModal({
+            title: appt.title,
+            desc: `${fmtDate(appt.date)}\n${appt.location}\n\nFor: ${appt.for}\nType: ${appt.type}\nStatus: ${appt.status}`,
+            options:[
+              {k:"Reminders", v: "Vaccination has 2-day reminder"},
+              {k:"Demo date", v: state.simNow ? fmtDate(now()) + " (simulated)" : fmtDate(now())}
+            ],
+            primaryLabel:"OK",
+            primaryAction: ()=>{}
+          });
+        };
+      });
+    }
+
+    function renderResources(){
+      // lightweight placeholder (you can expand later per stage)
+      const stageName = STAGES[state.stage].name;
+      contentEl.innerHTML = `
+        <div class="card">
+          <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Resources • ${escapeHtml(stageName)}</div>
+          <div style="font-size:18px;font-weight:900">Educational content (prototype)</div>
+          <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+            Next iteration: tailor content by pregnancy week, newborn age, screening results, vaccination due dates, and care pathway.
+          </div>
+          <div class="cta">
+            <button class="btn primary" id="goDash">Back to dashboard</button>
+            <button class="btn ghost" id="goPostTab">Open Newborn Screening</button>
+          </div>
+        </div>
+      `;
+      document.getElementById("goDash").onclick = ()=> setView("dashboard");
+      document.getElementById("goPostTab").onclick = ()=>{
+        setStage("post");
+        state.post.tab="nbs";
+        render();
+      };
+    }
+
+    function renderProfile(){
+      contentEl.innerHTML = `
+        <div class="card">
+          <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Me</div>
+          <div style="font-size:18px;font-weight:900">Profile (auto-created)</div>
+          <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
+            Auto-created from the hospital confirmation. Next iteration: language, consent, care pathway, and notification preferences.
+          </div>
+
+          <div class="kpiwrap">
+            <div class="kpi">
+              <div class="label">Current stage</div>
+              <div class="value">${escapeHtml(STAGES[state.stage].name)}</div>
+              <div class="hint">Controls dashboard experience</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Demo date</div>
+              <div class="value">${fmtShort(now())}${state.simNow ? " *" : ""}</div>
+              <div class="hint">${state.simNow ? "Simulated for notifications" : "Real time"}</div>
+            </div>
+          </div>
+
+          <div class="cta">
+            <button class="btn primary" id="toggleDemo">Reset demo date</button>
+            <button class="btn ghost" id="goAppointments">Appointments</button>
+          </div>
+        </div>
+      `;
+      document.getElementById("toggleDemo").onclick = ()=>{
+        state.simNow = null;
+        showToast("Demo date reset.");
+        render();
+      };
+      document.getElementById("goAppointments").onclick = ()=> setView("appointments");
+    }
+
+    function render(){
+      stageSubtitle.textContent = STAGES[state.stage].subtitle;
+
+      if(state.view === "dashboard"){
+        if(state.stage === "preg") renderDashboardPregnancy();
+        else if(state.stage === "birth") renderDashboardBirth();
+        else if(state.stage === "post") renderPostDashboard();
+        else renderDashboardPregnancy(); // fallback
+      }
+
+      if(state.view === "appointments") renderAppointments();
+      if(state.view === "resources") renderResources();
+      if(state.view === "profile") renderProfile();
+    }
+
+    // ---------------------------
+    // Icons
+    // ---------------------------
     function svgBadge(kind){
       const map = {
         cal: `<svg class="svg" viewBox="0 0 24 24" fill="none">
@@ -692,9 +1749,6 @@
           <path d="M6 4h12v16H6V4Z" stroke="currentColor" stroke-width="2"/>
           <path d="M9 8h6M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>`,
-        bolt: `<svg class="svg" viewBox="0 0 24 24" fill="none">
-          <path d="M13 2L3 14h8l-1 8 11-13h-8l0-7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-        </svg>`,
         heart: `<svg class="svg" viewBox="0 0 24 24" fill="none">
           <path d="M12 21s-7-4.35-9.5-9A5.8 5.8 0 0 1 12 5.8 5.8 5.8 0 0 1 21.5 12c-2.5 4.65-9.5 9-9.5 9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
         </svg>`
@@ -702,602 +1756,18 @@
       return map[kind] || map.book;
     }
 
-    // ===== Auto-booking logic (prototype) =====
-    function generateAutoAppointments(testDate, dueDate){
-      const t = new Date(testDate);
-      const d = new Date(dueDate);
-
-      // A "couple of appointments" interpreted as a small set of key ones, ending at birth.
-      // You can adjust titles/offsets later in the next iteration.
-      const templates = [
-        { id:"a1", title:"First prenatal visit (OB-GYN / Midwife)", offset:3,  stage:"preg", type:"Consultation" },
-        { id:"a2", title:"Dating ultrasound scan",                offset:10, stage:"preg", type:"Scan" },
-        { id:"a3", title:"First trimester screening",             offset:35, stage:"preg", type:"Screening" },
-        { id:"a4", title:"Anatomy scan (20-week scan)",           offset:90, stage:"preg", type:"Scan" },
-        { id:"a5", title:"Glucose tolerance test",                offset:170,stage:"preg", type:"Lab" },
-        { id:"a6", title:"Third trimester review",                offset:210,stage:"preg", type:"Consultation" },
-        // Birth stage
-        { id:"a7", title:"Birth plan appointment",                offset:240,stage:"birth",type:"Planning" },
-        { id:"a8", title:"Delivery (estimated due date)",         offsetFromDue:0, stage:"birth", type:"Delivery" }
-      ];
-
-      const appts = templates.map(x=>{
-        const date = (x.offsetFromDue !== undefined)
-          ? addDays(d, x.offsetFromDue)
-          : addDays(t, x.offset);
-
-        return {
-          id: x.id,
-          title: x.title,
-          date,
-          stage: x.stage,
-          type: x.type,
-          status: "Booked",
-          source: "Auto-booked from hospital confirmation",
-          location: "Hospital / Clinic (prototype)"
-        };
-      });
-
-      // Ensure chronological sort
-      appts.sort((a,b)=> new Date(a.date) - new Date(b.date));
-      return appts;
-    }
-
-    function initHospitalPositiveTestFlow(){
-      if(state.journeyInitialized) return;
-
-      // Auto-create profile & start pregnancy services
-      state.onboardingComplete = true;
-      state.profileSet = true;
-      state.remindersEnabled = true;
-      state.stage = "preg";
-      state.view = "dashboard";
-
-      // Auto-book appointments until birth
-      state.journey.appointments = generateAutoAppointments(state.journey.testDate, state.journey.dueDate);
-
-      state.journeyInitialized = true;
-
-      // Visual feedback (prototype)
-      setTimeout(()=>{
-        showToast(`Profile created • ${state.journey.appointments.length} appointments booked`);
-      }, 250);
-    }
-
-    function getUpcomingAppointments(){
-      const now = new Date();
-      return state.journey.appointments.filter(a => new Date(a.date) >= now);
-    }
-
-    function getNextAppointment(){
-      const upcoming = getUpcomingAppointments();
-      return upcoming.length ? upcoming[0] : null;
-    }
-
-    function pregnancyProgress(){
-      const start = new Date(state.journey.testDate);
-      const end = new Date(state.journey.dueDate);
-      const now = new Date();
-      const total = Math.max(1, end - start);
-      const elapsed = clamp(now - start, 0, total);
-      const pct = (elapsed / total) * 100;
-
-      // Very rough week estimate for prototype
-      const days = Math.max(0, Math.round(elapsed / (1000*60*60*24)));
-      const week = Math.max(1, Math.floor(days / 7) + 1);
-
-      return { pct: clamp(pct, 0, 100), week };
-    }
-
-    function openDueDateEditor(){
-      const old = new Date(state.journey.dueDate);
-      openModal({
-        title: "Edit due date (estimated)",
-        desc: "Prototype control. Changing the due date will re-generate the auto-booked appointments.",
-        options: [
-          { k:"Current", v: fmtDate(old) },
-          { k:"Adjust", v:"+ 1 week", onClick: ()=>{ state.journey.dueDate = addDays(old, 7); rebook(); } },
-          { k:"Adjust", v:"- 1 week", onClick: ()=>{ state.journey.dueDate = addDays(old, -7); rebook(); } },
-          { k:"Adjust", v:"+ 2 weeks", onClick: ()=>{ state.journey.dueDate = addDays(old, 14); rebook(); } },
-          { k:"Adjust", v:"- 2 weeks", onClick: ()=>{ state.journey.dueDate = addDays(old, -14); rebook(); } }
-        ],
-        primaryLabel: "Done",
-        primaryAction: ()=>{}
-      });
-
-      function rebook(){
-        state.journey.appointments = generateAutoAppointments(state.journey.testDate, state.journey.dueDate);
-        showToast("Appointments re-booked (prototype).");
-        render();
-      }
-    }
-
-    function openAppointment(appt){
-      openModal({
-        title: appt.title,
-        desc:
-          `${fmtDate(appt.date)}\n` +
-          `${appt.location}\n\n` +
-          `Status: ${appt.status}\n` +
-          `${appt.source}\n\n` +
-          `Later: clinician, location map, reschedule/cancel, prep instructions, check-in/queue.`,
-        options: [
-          { k:"Type", v: appt.type },
-          { k:"Stage", v: STAGES[appt.stage]?.name || appt.stage },
-          { k:"Reminders", v: state.remindersEnabled ? "On" : "Off", onClick: ()=>{ state.remindersEnabled = !state.remindersEnabled; showToast("Toggled reminders."); render(); } },
-          { k:"Reschedule", v:"(placeholder)", onClick: ()=> showToast("Reschedule (prototype).") }
-        ],
-        primaryLabel: "OK",
-        primaryAction: ()=>{}
-      });
-    }
-
-    function openResource(resourceId){
-      const r = STAGES[state.stage].resources.find(x=>x.id===resourceId);
-      if(!r) return;
-      openModal({
-        title: r.title,
-        desc: r.desc + "\n\nLater: full article/video, save/bookmark, and stage-aware recommendations.",
-        options: [
-          { k:"Stage", v: STAGES[state.stage].name },
-          { k:"Save", v:"Bookmark", onClick: ()=> showToast("Saved (prototype).") },
-          { k:"Share", v:"Send link", onClick: ()=> showToast("Share (prototype).") },
-          { k:"Feedback", v:"Helpful / Not", onClick: ()=> showToast("Feedback (prototype).") }
-        ],
-        primaryLabel: "Open",
-        primaryAction: ()=> showToast("Open resource (prototype).")
-      });
-    }
-
-    // ===== Renderers =====
-    function renderDashboard(){
-      const s = STAGES[state.stage];
-      const next = getNextAppointment();
-      const upcoming = getUpcomingAppointments();
-      const prog = pregnancyProgress();
-
-      const due = fmtDate(state.journey.dueDate);
-      const test = fmtDate(state.journey.testDate);
-
-      const hospitalCard = `
-        <div class="card">
-          <div class="row">
-            <div style="min-width:0">
-              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Hospital-triggered start</div>
-              <div style="font-size:16px;font-weight:820;letter-spacing:.2px">${escapeHtml(state.journey.hospitalEvent.event)}</div>
-              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
-                Facility: ${escapeHtml(state.journey.hospitalEvent.facility)}<br/>
-                Confirmation date: ${test}<br/>
-                Profile: <b>Auto-created</b> • Pregnancy services: <b>Active</b>
-              </div>
-              <div class="chips">
-                <span class="chip">Auto-booked appointments</span>
-                <span class="chip">Tailored education</span>
-                <span class="chip">Reminders ${state.remindersEnabled ? "On" : "Off"}</span>
-              </div>
-            </div>
-            <div class="thumb" aria-hidden="true">${svgBadge("heart")}</div>
-          </div>
-          <div class="cta">
-            <button class="btn primary" id="btnViewSchedule">View schedule</button>
-            <button class="btn ghost" id="btnEditDue">Edit due date</button>
-          </div>
-        </div>
-      `;
-
-      const overview = `
-        <div class="card">
-          <div class="row">
-            <div style="min-width:0">
-              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Pregnancy overview</div>
-              <div style="font-size:18px;font-weight:820">${s.heroTitle}</div>
-              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">${s.heroDesc}</div>
-              <div class="progress" aria-label="Pregnancy progress"><div id="progBar"></div></div>
-              <div class="muted2" style="font-size:11px;margin-top:8px">
-                Progress: ~Week ${prog.week} (prototype estimate)
-              </div>
-            </div>
-            <div class="thumb" aria-hidden="true">${svgBadge("bolt")}</div>
-          </div>
-
-          <div class="kpiwrap">
-            <div class="kpi">
-              <div class="label">Estimated due date</div>
-              <div class="value">${due}</div>
-              <div class="hint">Tap “Edit due date” to adjust</div>
-            </div>
-            <div class="kpi">
-              <div class="label">Upcoming appointments</div>
-              <div class="value">${upcoming.length}</div>
-              <div class="hint">${upcoming.length ? "Auto-booked to birth" : "None"}</div>
-            </div>
-            <div class="kpi">
-              <div class="label">Next appointment</div>
-              <div class="value">${next ? fmtShort(next.date) : "—"}</div>
-              <div class="hint">${next ? escapeHtml(next.title) : "No upcoming"}</div>
-            </div>
-            <div class="kpi">
-              <div class="label">Stage</div>
-              <div class="value">${s.name}</div>
-              <div class="hint">Tailors content & schedule</div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      const nextAppointments = `
-        <div class="section">
-          <div class="sectionhead">
-            <h3>Next appointments</h3>
-            <button class="linkbtn" id="apptsAll">View all</button>
-          </div>
-          ${
-            upcoming.length
-              ? `<div class="list">
-                  ${upcoming.slice(0,3).map(a=>`
-                    <div class="item" data-item="appt" data-id="${a.id}">
-                      <div class="thumb">${svgBadge("cal")}</div>
-                      <div class="meta">
-                        <div class="t">${escapeHtml(a.title)}</div>
-                        <div class="d">${fmtDate(a.date)} • ${escapeHtml(a.location)}</div>
-                        <div class="tags">
-                          <span class="tag">${escapeHtml(a.type)}</span>
-                          <span class="tag">${escapeHtml(a.status)}</span>
-                          <span class="tag">${STAGES[a.stage]?.name || a.stage}</span>
-                        </div>
-                      </div>
-                      <div class="chev">›</div>
-                    </div>
-                  `).join("")}
-                </div>`
-              : `<div class="empty">No upcoming appointments (prototype).</div>`
-          }
-        </div>
-      `;
-
-      const education = `
-        <div class="section">
-          <div class="sectionhead">
-            <h3>Tailored Education</h3>
-            <button class="linkbtn" id="resourcesAll">View all</button>
-          </div>
-
-          <div class="list">
-            ${s.resources.slice(0,3).map((r,i)=>`
-              <div class="item" data-item="resource" data-id="${r.id}">
-                <div class="thumb">${svgBadge("book")}</div>
-                <div class="meta">
-                  <div class="t">${escapeHtml(r.title)}</div>
-                  <div class="d">${escapeHtml(r.desc)}</div>
-                  <div class="tags">${r.tags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
-                </div>
-                <div class="chev">›</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-
-      const wellness = `
-        <div class="section">
-          <div class="sectionhead">
-            <h3>My Wellness</h3>
-            <button class="linkbtn" id="wellnessAll">View all</button>
-          </div>
-
-          <div class="card">
-            <div class="row">
-              <div style="min-width:0">
-                <div style="font-weight:820">Connect your smart device</div>
-                <div class="muted" style="font-size:12px;margin-top:5px;line-height:1.45">
-                  Optional pregnancy wellness insights (prototype placeholder).
-                </div>
-              </div>
-              <div class="thumb" aria-hidden="true">${svgBadge("heart")}</div>
-            </div>
-            <div class="cta">
-              <button class="btn primary" id="connectDevice">Connect device</button>
-              <button class="btn ghost" id="privacy">Privacy</button>
-            </div>
-          </div>
-        </div>
-      `;
-
-      contentEl.innerHTML = hospitalCard + overview + nextAppointments + education + wellness;
-
-      // set progress bar width
-      requestAnimationFrame(()=>{
-        const bar = document.getElementById("progBar");
-        if(bar) bar.style.width = prog.pct.toFixed(0) + "%";
-      });
-
-      // Wire up
-      document.getElementById("btnViewSchedule").onclick = ()=> setView("appointments");
-      document.getElementById("btnEditDue").onclick = ()=> openDueDateEditor();
-      document.getElementById("apptsAll").onclick = ()=> setView("appointments");
-      document.getElementById("resourcesAll").onclick = ()=> setView("resources");
-
-      document.getElementById("connectDevice").onclick = ()=> showToast("Connect device (prototype).");
-      document.getElementById("privacy").onclick = ()=> openModal({
-        title:"Privacy (prototype)",
-        desc:"Placeholder for consent, sharing, and data visibility.",
-        options:[
-          {k:"Medical data", v:"Used for personalization", onClick: ()=>showToast("Medical consent (prototype).")},
-          {k:"Device data", v:"Optional", onClick: ()=>showToast("Device consent (prototype).")}
-        ],
-        primaryLabel:"Got it",
-        primaryAction: ()=>{}
-      });
-
-      // Appointment + Resource open
-      contentEl.querySelectorAll('[data-item="appt"]').forEach(el=>{
-        el.onclick = ()=>{
-          const id = el.dataset.id;
-          const appt = state.journey.appointments.find(a=>a.id===id);
-          if(appt) openAppointment(appt);
-        };
-      });
-      contentEl.querySelectorAll('[data-item="resource"]').forEach(el=>{
-        el.onclick = ()=> openResource(el.dataset.id);
-      });
-    }
-
-    function renderResources(){
-      const s = STAGES[state.stage];
-
-      const header = `
-        <div class="card">
-          <div class="row">
-            <div style="min-width:0">
-              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Tailored education • ${s.name}</div>
-              <div style="font-size:18px;font-weight:820">Resources</div>
-              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
-                Prototype: stage-aware list. Next iteration can add trimester/week personalization and clinical guidelines.
-              </div>
-            </div>
-            <div class="thumb">${svgBadge("book")}</div>
-          </div>
-          <div class="cta">
-            <button class="btn ghost" id="filterBtn">Filter</button>
-            <button class="btn ghost" id="sortBtn">Sort</button>
-            <button class="btn primary" id="assessmentBtn">Quick assessment</button>
-          </div>
-        </div>
-      `;
-
-      const list = `
-        <div class="section">
-          <div class="list">
-            ${s.resources.map(r=>`
-              <div class="item" data-item="resource" data-id="${r.id}">
-                <div class="thumb">${svgBadge("book")}</div>
-                <div class="meta">
-                  <div class="t">${escapeHtml(r.title)}</div>
-                  <div class="d">${escapeHtml(r.desc)}</div>
-                  <div class="tags">${r.tags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
-                </div>
-                <div class="chev">›</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>
-      `;
-
-      contentEl.innerHTML = header + list;
-
-      document.getElementById("filterBtn").onclick = ()=> showToast("Filter (prototype).");
-      document.getElementById("sortBtn").onclick = ()=> showToast("Sort (prototype).");
-      document.getElementById("assessmentBtn").onclick = ()=> openModal({
-        title:"Quick assessment (prototype)",
-        desc:"Later: a short questionnaire to tailor content and appointment nudges.",
-        options:[
-          {k:"Goal", v:"Tailor content"},
-          {k:"Time", v:"~2 min"}
-        ],
-        primaryLabel:"Start",
-        primaryAction: ()=> showToast("Assessment started (prototype).")
-      });
-
-      contentEl.querySelectorAll('[data-item="resource"]').forEach(el=>{
-        el.onclick = ()=> openResource(el.dataset.id);
-      });
-    }
-
-    function renderAppointments(){
-      const upcoming = getUpcomingAppointments();
-      const all = state.journey.appointments;
-
-      const card = `
-        <div class="card">
-          <div class="row">
-            <div style="min-width:0">
-              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Appointments</div>
-              <div style="font-size:18px;font-weight:820">Auto-booked schedule</div>
-              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
-                Created automatically after the hospital confirmed the positive pregnancy test (prototype).
-              </div>
-            </div>
-            <div class="thumb">${svgBadge("cal")}</div>
-          </div>
-          <div class="cta">
-            <button class="btn primary" id="bookExtra">Book extra appointment</button>
-            <button class="btn ghost" id="toggleReminders">${state.remindersEnabled ? "Disable reminders" : "Enable reminders"}</button>
-          </div>
-        </div>
-      `;
-
-      const upcomingBlock = `
-        <div class="section">
-          <div class="sectionhead">
-            <h3>Upcoming</h3>
-            <button class="linkbtn" id="editDueLink">Edit due date</button>
-          </div>
-          ${
-            upcoming.length
-              ? `<div class="list">
-                  ${upcoming.map(a=>`
-                    <div class="item" data-item="appt" data-id="${a.id}">
-                      <div class="thumb">${svgBadge("cal")}</div>
-                      <div class="meta">
-                        <div class="t">${escapeHtml(a.title)}</div>
-                        <div class="d">${fmtDate(a.date)} • ${escapeHtml(a.location)}</div>
-                        <div class="tags">
-                          <span class="tag">${escapeHtml(a.type)}</span>
-                          <span class="tag">${STAGES[a.stage]?.name || a.stage}</span>
-                          <span class="tag">${escapeHtml(a.status)}</span>
-                        </div>
-                      </div>
-                      <div class="chev">›</div>
-                    </div>
-                  `).join("")}
-                </div>`
-              : `<div class="empty">No upcoming appointments (prototype).</div>`
-          }
-        </div>
-      `;
-
-      const allBlock = `
-        <div class="section">
-          <div class="sectionhead"><h3>All (timeline)</h3></div>
-          <div class="card">
-            <div class="muted2" style="font-size:11px;margin-bottom:8px">
-              Includes delivery (estimated). Next iteration can group by trimester, care pathway, and facility.
-            </div>
-            <div class="chips">
-              ${all.map(a=>`<span class="chip">${fmtShort(a.date)} • ${escapeHtml(a.title)}</span>`).join("")}
-            </div>
-          </div>
-        </div>
-      `;
-
-      contentEl.innerHTML = card + upcomingBlock + allBlock;
-
-      document.getElementById("bookExtra").onclick = ()=> showToast("Book extra appointment (prototype).");
-      document.getElementById("toggleReminders").onclick = ()=>{
-        state.remindersEnabled = !state.remindersEnabled;
-        showToast(state.remindersEnabled ? "Reminders enabled." : "Reminders disabled.");
-        render();
-      };
-      document.getElementById("editDueLink").onclick = ()=> openDueDateEditor();
-
-      contentEl.querySelectorAll('[data-item="appt"]').forEach(el=>{
-        el.onclick = ()=>{
-          const id = el.dataset.id;
-          const appt = state.journey.appointments.find(a=>a.id===id);
-          if(appt) openAppointment(appt);
-        };
-      });
-    }
-
-    function renderProfile(){
-      const due = fmtDate(state.journey.dueDate);
-      contentEl.innerHTML = `
-        <div class="card">
-          <div class="row">
-            <div style="min-width:0">
-              <div style="font-size:12px;color:rgba(232,240,255,.60);margin-bottom:6px">Me</div>
-              <div style="font-size:18px;font-weight:820">Profile (auto-created)</div>
-              <div class="muted" style="font-size:12px;line-height:1.45;margin-top:6px">
-                Created automatically from the hospital confirmation. Next iteration: demographics, care pathway, language, consent.
-              </div>
-            </div>
-            <div class="thumb">${svgBadge("heart")}</div>
-          </div>
-
-          <div class="kpiwrap">
-            <div class="kpi">
-              <div class="label">Profile status</div>
-              <div class="value">${state.profileSet ? "Active" : "Not set"}</div>
-              <div class="hint">Auto-created by hospital</div>
-            </div>
-            <div class="kpi">
-              <div class="label">Due date (estimated)</div>
-              <div class="value">${due}</div>
-              <div class="hint">Drives appointment schedule</div>
-            </div>
-          </div>
-
-          <div class="cta">
-            <button class="btn primary" id="editPrefs">Edit preferences</button>
-            <button class="btn ghost" id="consentBtn">Consent & privacy</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="sectionhead"><h3>Quick settings</h3></div>
-          <div class="card" style="padding:10px">
-            <div class="item" data-item="setting" data-title="Language">
-              <div class="thumb">${svgBadge("book")}</div>
-              <div class="meta">
-                <div class="t">Language</div>
-                <div class="d">English (prototype)</div>
-              </div>
-              <div class="chev">›</div>
-            </div>
-            <div class="item" data-item="setting" data-title="Reminders">
-              <div class="thumb">${svgBadge("cal")}</div>
-              <div class="meta">
-                <div class="t">Reminders</div>
-                <div class="d">${state.remindersEnabled ? "Enabled" : "Disabled"}</div>
-              </div>
-              <div class="chev">›</div>
-            </div>
-            <div class="item" data-item="setting" data-title="Estimated due date">
-              <div class="thumb">${svgBadge("heart")}</div>
-              <div class="meta">
-                <div class="t">Estimated due date</div>
-                <div class="d">${due}</div>
-              </div>
-              <div class="chev">›</div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      document.getElementById("editPrefs").onclick = ()=> showToast("Preferences saved (prototype).");
-      document.getElementById("consentBtn").onclick = ()=> openModal({
-        title:"Consent & privacy",
-        desc:"Prototype placeholder. Next iteration: granular consent for medical info, device data, and personalization.",
-        options:[
-          {k:"Medical data", v:"Used for services", onClick: ()=>showToast("Medical consent (prototype).")},
-          {k:"Device data", v:"Optional", onClick: ()=>showToast("Device consent (prototype).")}
-        ],
-        primaryLabel:"Save",
-        primaryAction: ()=> showToast("Saved (prototype).")
-      });
-
-      contentEl.querySelectorAll('[data-item="setting"]').forEach(el=>{
-        el.onclick = ()=>{
-          if(el.dataset.title === "Estimated due date") openDueDateEditor();
-          else if(el.dataset.title === "Reminders"){
-            state.remindersEnabled = !state.remindersEnabled;
-            showToast("Toggled reminders.");
-            render();
-          } else {
-            showToast(`${el.dataset.title} (prototype).`);
-          }
-        };
-      });
-    }
-
-    function render(){
-      stageSubtitle.textContent = STAGES[state.stage].subtitle;
-
-      if(state.view === "dashboard") renderDashboard();
-      if(state.view === "resources") renderResources();
-      if(state.view === "appointments") renderAppointments();
-      if(state.view === "profile") renderProfile();
-    }
-
-    // ===== Event wiring =====
+    // ---------------------------
+    // Global event wiring
+    // ---------------------------
     stageBar.addEventListener("click", (e)=>{
-      const el = e.target.closest(".stage");
-      if(!el) return;
+      const el = e.target.closest(".pill");
+      if(!el || !el.dataset.stage) return;
       setStage(el.dataset.stage);
     });
+
     stageBar.addEventListener("keydown", (e)=>{
-      const el = e.target.closest(".stage");
-      if(!el) return;
+      const el = e.target.closest(".pill");
+      if(!el || !el.dataset.stage) return;
       if(e.key === "Enter" || e.key === " "){
         e.preventDefault();
         setStage(el.dataset.stage);
@@ -1314,26 +1784,36 @@
     });
 
     document.getElementById("infoBtn").onclick = ()=>{
-      const next = getNextAppointment();
+      const baby = state.journey.baby;
+      const active = getActiveNotifications();
+
       openModal({
-        title:"Having a Baby • Services started",
+        title:"Having a Baby • Summary",
         desc:
-          "Auto-triggered by hospital confirmation.\n\n" +
-          `Due date (est.): ${fmtDate(state.journey.dueDate)}\n` +
-          `Appointments booked: ${state.journey.appointments.length}\n` +
-          (next ? `Next: ${fmtDate(next.date)} • ${next.title}` : "Next: —"),
+          `Stage: ${STAGES[state.stage].name}\n\n` +
+          `Hospital event: ${state.journey.hospitalEvent.event}\n` +
+          `Test confirmed: ${fmtDate(state.journey.testDate)}\n` +
+          `Due date (est.): ${fmtDate(state.journey.dueDate)}\n\n` +
+          (state.deliveryCompleted
+            ? `Baby born: ${fmtDate(baby.birthDate)}\nNBS results: ${baby.screenings.length}\nVaccines scheduled: ${baby.vaccines.length}\n\n`
+            : "Birth not completed yet.\n\n"
+          ) +
+          (active.length ? `Active notification:\n• ${active[0].message}` : "No active notifications right now."),
         options:[
-          {k:"View", v:"Schedule", onClick: ()=> setView("appointments")},
-          {k:"Edit", v:"Due date", onClick: ()=> openDueDateEditor()}
+          {k:"Action", v:"Go to Post-birth", onClick: ()=>{ setStage("post"); }},
+          {k:"Action", v:"Complete birth (demo)", onClick: ()=>{ completeBirthAndTransferToPostnatal(); }}
         ],
         primaryLabel:"OK",
         primaryAction: ()=>{}
       });
     };
+
     document.getElementById("backBtn").onclick = ()=> showToast("Back (prototype).");
 
-    // ===== Boot =====
-    initHospitalPositiveTestFlow();
+    // ---------------------------
+    // Boot
+    // ---------------------------
+    initPregnancyFlow();
     render();
   </script>
 </body>
